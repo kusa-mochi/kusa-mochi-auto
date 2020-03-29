@@ -25,5 +25,7 @@
         <Button
             Content="Mouse Pointer to 200,200"
             Command="{Binding MouseMoveTo200200, Mode=OneWay}" />
+        <Button
+            Command="{Binding ClickAfter3Sec, Mode=OneWay}">Click after 3 sec</Button>
     </WrapPanel>
 </Window>
