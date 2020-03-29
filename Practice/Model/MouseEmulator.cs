@@ -33,5 +33,25 @@ namespace Practice.Model
 
             return true;
         }
+
+        public bool MouseRightClick()
+        {
+            NativeMethods.NativeMethods.Win32Point mousePosition = new NativeMethods.NativeMethods.Win32Point
+            {
+                X = 0,
+                Y = 0
+            };
+
+            NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
+            NativeMethods.NativeMethods.mouse_event(
+                NativeMethods.NativeMethods.MOUSEEVENTFLAG_RIGHTDOWN | NativeMethods.NativeMethods.MOUSEEVENTFLAG_RIGHTUP,
+                (uint)mousePosition.X,
+                (uint)mousePosition.Y,
+                0,
+                0
+                );
+
+            return true;
+        }
     }
 }

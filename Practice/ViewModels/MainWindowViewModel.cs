@@ -39,6 +39,25 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Right click after 3 sec
+
+        private DelegateCommand _RightClickAfter3Sec;
+        public DelegateCommand RightClickAfter3Sec =>
+            _RightClickAfter3Sec ?? (_RightClickAfter3Sec = new DelegateCommand(() =>
+            {
+                Task<bool> result = RightClickAfter3SecAsync();
+            }));
+
+        private async Task<bool> RightClickAfter3SecAsync()
+        {
+            await Task.Delay(3000);
+            _mouse.MouseRightClick();
+
+            return true;
+        }
+
+        #endregion
+
         public MainWindowViewModel()
         {
 
