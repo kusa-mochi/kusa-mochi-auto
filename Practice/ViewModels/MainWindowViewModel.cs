@@ -69,14 +69,13 @@ namespace Practice.ViewModels
         private async Task<bool> Drag300010To300300Async()
         {
             _mouse.MouseMoveTo(300, 10);
-            await Task.Delay(16);
             _mouse.MouseLeftButtonDown();
-            await Task.Delay(16);
+            await Task.Delay(_timeInterval);
 
             for (int posY = 10; posY < 300; posY += 10)
             {
                 _mouse.MouseMoveTo(300, posY);
-                await Task.Delay(16);
+                await Task.Delay(_timeInterval);
             }
             _mouse.MouseLeftButtonUp();
 
@@ -89,5 +88,11 @@ namespace Practice.ViewModels
         {
 
         }
+
+        #region Common Fields
+
+        private int _timeInterval = 8;
+
+        #endregion
     }
 }
