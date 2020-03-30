@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using Practice.NativeMethods;
@@ -16,80 +17,148 @@ namespace Practice.Model
 
         public bool MouseClick()
         {
-            NativeMethods.NativeMethods.Win32Point mousePosition = new NativeMethods.NativeMethods.Win32Point
+            Win32Point mousePosition = new Win32Point
             {
                 X = 0,
                 Y = 0
             };
-
             NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
-            NativeMethods.NativeMethods.mouse_event(
-                NativeMethods.NativeMethods.MOUSEEVENTFLAG_LEFTDOWN | NativeMethods.NativeMethods.MOUSEEVENTFLAG_LEFTUP,
-                (uint)mousePosition.X,
-                (uint)mousePosition.Y,
-                0,
-                0
-                );
+
+            INPUT[] inputs = new INPUT[] {
+                new INPUT{
+                    type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTDOWN,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                        }
+                    }
+                },
+                new INPUT{
+                    type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTUP,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                        }
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
 
             return true;
         }
 
         public bool MouseRightClick()
         {
-            NativeMethods.NativeMethods.Win32Point mousePosition = new NativeMethods.NativeMethods.Win32Point
+            Win32Point mousePosition = new Win32Point
             {
                 X = 0,
                 Y = 0
             };
-
             NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
-            NativeMethods.NativeMethods.mouse_event(
-                NativeMethods.NativeMethods.MOUSEEVENTFLAG_RIGHTDOWN | NativeMethods.NativeMethods.MOUSEEVENTFLAG_RIGHTUP,
-                (uint)mousePosition.X,
-                (uint)mousePosition.Y,
-                0,
-                0
-                );
+
+            INPUT[] inputs = new INPUT[] {
+                new INPUT{
+                    type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTDOWN,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                        }
+                    }
+                },
+                new INPUT{
+                    type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTUP,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                        }
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
 
             return true;
         }
 
         public bool MouseLeftButtonDown()
         {
-            NativeMethods.NativeMethods.Win32Point mousePosition = new NativeMethods.NativeMethods.Win32Point
+            Win32Point mousePosition = new Win32Point
             {
                 X = 0,
                 Y = 0
             };
-
             NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
-            NativeMethods.NativeMethods.mouse_event(
-                NativeMethods.NativeMethods.MOUSEEVENTFLAG_LEFTDOWN,
-                (uint)mousePosition.X,
-                (uint)mousePosition.Y,
-                0,
-                0
-                );
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTDOWN,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
         }
 
         public bool MouseLeftButtonUp()
         {
-            NativeMethods.NativeMethods.Win32Point mousePosition = new NativeMethods.NativeMethods.Win32Point
+            Win32Point mousePosition = new Win32Point
             {
                 X = 0,
                 Y = 0
             };
-
             NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
-            NativeMethods.NativeMethods.mouse_event(
-                NativeMethods.NativeMethods.MOUSEEVENTFLAG_LEFTUP,
-                (uint)mousePosition.X,
-                (uint)mousePosition.Y,
-                0,
-                0
-                );
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTUP,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
         }
