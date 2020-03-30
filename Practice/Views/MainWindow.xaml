@@ -9,8 +9,7 @@
     x:Class="Practice.Views.MainWindow"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="practice"
-    Height="350"
-    Width="525"
+    SizeToContent="WidthAndHeight"
     d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
     <Window.Resources>
         <Style
@@ -22,6 +21,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -43,7 +43,14 @@
             Grid.Column="1"
             Header="Keyboard">
             <StackPanel>
-
+                <Button>Type "Kusa Mochi"</Button>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Grid.Column="2"
+            Header="Image">
+            <StackPanel>
+                <Button>Detect test image in whole screen</Button>
             </StackPanel>
         </GroupBox>
     </Grid>
