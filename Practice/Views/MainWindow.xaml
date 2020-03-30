@@ -10,7 +10,8 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="practice"
     Height="350"
-    Width="525">
+    Width="525"
+    d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
     <Window.Resources>
         <Style
             TargetType="{x:Type Button}">
@@ -19,15 +20,31 @@
                 Value="8" />
         </Style>
     </Window.Resources>
-    <WrapPanel
-        Orientation="Horizontal"
-        d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
-        <Button
-            Content="Mouse Pointer to 200,200"
-            Command="{Binding MouseMoveTo200200, Mode=OneWay}" />
-        <Button
-            Command="{Binding ClickAfter3Sec, Mode=OneWay}">Click after 3 sec</Button>
-        <Button
-            Command="{Binding RightClickAfter3Sec, Mode=OneWay}">Right click after 3 sec</Button>
-    </WrapPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox
+            Header="Mouse">
+            <StackPanel>
+                <Button
+                    Content="Mouse Pointer to 200,200"
+                    Command="{Binding MouseMoveTo200200, Mode=OneWay}" />
+                <Button
+                    Command="{Binding ClickAfter3Sec, Mode=OneWay}">Click after 3 sec</Button>
+                <Button
+                    Command="{Binding RightClickAfter3Sec, Mode=OneWay}">Right click after 3 sec</Button>
+                <Button
+                    Command="{Binding Drag300010To300300, Mode=OneWay}">Drag 300,10 to 300,300</Button>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Grid.Column="1"
+            Header="Keyboard">
+            <StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+    </Grid>
 </Window>

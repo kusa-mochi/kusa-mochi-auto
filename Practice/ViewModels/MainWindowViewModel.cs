@@ -58,6 +58,33 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Drag 300,10 to 300,300
+
+        private DelegateCommand _Drag300010To300300;
+        public DelegateCommand Drag300010To300300 =>
+            _Drag300010To300300 ?? (_Drag300010To300300 = new DelegateCommand(() =>
+            {
+                Task<bool> result = Drag300010To300300Async();
+            }));
+        private async Task<bool> Drag300010To300300Async()
+        {
+            _mouse.MouseMoveTo(300, 10);
+            await Task.Delay(16);
+            _mouse.MouseLeftButtonDown();
+            await Task.Delay(16);
+
+            for (int posY = 10; posY < 300; posY += 10)
+            {
+                _mouse.MouseMoveTo(300, posY);
+                await Task.Delay(16);
+            }
+            _mouse.MouseLeftButtonUp();
+
+            return true;
+        }
+
+        #endregion
+
         public MainWindowViewModel()
         {
 
