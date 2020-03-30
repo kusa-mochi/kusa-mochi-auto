@@ -84,6 +84,17 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Record Events
+
+        private string _RecordedText = "";
+        public string RecordedText
+        {
+            get { return _RecordedText; }
+            set { SetProperty(ref _RecordedText, value); }
+        }
+
+        #endregion
+
         public MainWindowViewModel()
         {
 

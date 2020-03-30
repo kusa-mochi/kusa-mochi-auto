@@ -24,6 +24,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <GroupBox
             Header="Mouse">
@@ -52,6 +53,15 @@
             <StackPanel>
                 <Button>Detect test image in whole screen</Button>
             </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Grid.Column="3"
+            Header="Record Events">
+            <TextBox
+                Text="{Binding RecordedText}"
+                Width="150"
+                MinHeight="200"
+                IsReadOnly="True"></TextBox>
         </GroupBox>
     </Grid>
 </Window>
