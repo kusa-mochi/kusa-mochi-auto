@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -11,7 +13,6 @@ namespace Practice.ViewModels
         #region Mouse Pointer to 200,200
 
         private DelegateCommand _MouseMoveTo200200;
-        private MouseEmulator _mouse = new MouseEmulator();
 
         public DelegateCommand MouseMoveTo200200 =>
             _MouseMoveTo200200 ?? (_MouseMoveTo200200 = new DelegateCommand(() =>
@@ -84,6 +85,40 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Type Kusa Mochi
+
+        private DelegateCommand _TypeKusaMochi;
+        public DelegateCommand TypeKusaMochi =>
+            _TypeKusaMochi ?? (_TypeKusaMochi = new DelegateCommand(() =>
+            {
+                Task<bool> result = TypeKusaMochiAsync();
+            }));
+        private async Task<bool> TypeKusaMochiAsync()
+        {
+            await Task.Delay(3000);
+
+            _keyboard.KeyDown(NativeMethods.NativeMethods.VK_SHIFT);
+            _keyboard.KeyDown(65 + 'k' - 'a');
+            _keyboard.KeyUp(65 + 'k' - 'a');
+            _keyboard.KeyUp(NativeMethods.NativeMethods.VK_SHIFT);
+            _keyboard.KeyInput(65 + 'u' - 'a');
+            _keyboard.KeyInput(65 + 's' - 'a');
+            _keyboard.KeyInput(65 + 'a' - 'a');
+            _keyboard.KeyInput(32);
+            _keyboard.KeyDown(NativeMethods.NativeMethods.VK_SHIFT);
+            _keyboard.KeyDown(65 + 'm' - 'a');
+            _keyboard.KeyUp(65 + 'm' - 'a');
+            _keyboard.KeyUp(NativeMethods.NativeMethods.VK_SHIFT);
+            _keyboard.KeyInput(65 + 'o' - 'a');
+            _keyboard.KeyInput(65 + 'c' - 'a');
+            _keyboard.KeyInput(65 + 'h' - 'a');
+            _keyboard.KeyInput(65 + 'i' - 'a');
+
+            return true;
+        }
+
+        #endregion
+
         #region Record Events
 
         private string _RecordedText = "";
@@ -102,6 +137,8 @@ namespace Practice.ViewModels
 
         #region Common Fields
 
+        private MouseEmulator _mouse = new MouseEmulator();
+        private KeyboardEmulator _keyboard = new KeyboardEmulator();
         private int _timeInterval = 8;
 
         #endregion

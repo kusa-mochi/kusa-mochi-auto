@@ -87,5 +87,8 @@ namespace Practice.NativeMethods
 
         [DllImport("user32.dll")]
         public extern static void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
+
+        [DllImport("user32.dll", EntryPoint = "MapVirtualKeyA")]
+        public extern static int MapVirtualKey(int wCode, int wMapType);
     }
 }

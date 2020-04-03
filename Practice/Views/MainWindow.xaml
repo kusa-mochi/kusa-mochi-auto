@@ -44,7 +44,8 @@
             Grid.Column="1"
             Header="Keyboard">
             <StackPanel>
-                <Button>Type "Kusa Mochi"</Button>
+                <Button
+                    Command="{Binding TypeKusaMochi, Mode=OneWay}">Type "Kusa Mochi"</Button>
             </StackPanel>
         </GroupBox>
         <GroupBox

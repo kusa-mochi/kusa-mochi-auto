@@ -29,12 +29,12 @@ namespace Practice.Model
                     type = NativeMethods.NativeMethods.INPUT_MOUSE,
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
-                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTDOWN,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
-                        mouseData = 0,
-                        dwExtraInfo = IntPtr.Zero,
-                        time = 0
+                            dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTDOWN,
+                            dx = mousePosition.X,
+                            dy = mousePosition.Y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
                         }
                     }
                 },
@@ -42,12 +42,12 @@ namespace Practice.Model
                     type = NativeMethods.NativeMethods.INPUT_MOUSE,
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
-                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTUP,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
-                        mouseData = 0,
-                        dwExtraInfo = IntPtr.Zero,
-                        time = 0
+                            dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_LEFTUP,
+                            dx = mousePosition.X,
+                            dy = mousePosition.Y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
                         }
                     }
                 }
@@ -72,12 +72,12 @@ namespace Practice.Model
                     type = NativeMethods.NativeMethods.INPUT_MOUSE,
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
-                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTDOWN,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
-                        mouseData = 0,
-                        dwExtraInfo = IntPtr.Zero,
-                        time = 0
+                            dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTDOWN,
+                            dx = mousePosition.X,
+                            dy = mousePosition.Y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
                         }
                     }
                 },
@@ -85,12 +85,12 @@ namespace Practice.Model
                     type = NativeMethods.NativeMethods.INPUT_MOUSE,
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
-                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTUP,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
-                        mouseData = 0,
-                        dwExtraInfo = IntPtr.Zero,
-                        time = 0
+                            dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_RIGHTUP,
+                            dx = mousePosition.X,
+                            dy = mousePosition.Y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
                         }
                     }
                 }
