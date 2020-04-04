@@ -145,6 +145,10 @@ namespace Practice.ViewModels
             InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
             InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
             InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
+            InputDetector.KeyDown += OnKeyDown;
+            InputDetector.KeyUp += OnKeyUp;
+            InputDetector.SystemKeyDown += OnSystemKeyDown;
+            InputDetector.SystemKeyUp += OnSystemKeyUp;
         }
 
         ~MainWindowViewModel()
@@ -175,6 +179,26 @@ namespace Practice.ViewModels
         private void OnMouseRightButtonUp(object sender, Win32Point e)
         {
             RecordedText = "mouse R Up: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+        }
+
+        private void OnKeyDown(object sender, KeyboardEventArgs e)
+        {
+            RecordedText = "key down: " + (int)e.key + "\n" + RecordedText;
+        }
+
+        private void OnKeyUp(object sender, KeyboardEventArgs e)
+        {
+            RecordedText = "key up: " + (int)e.key + "\n" + RecordedText;
+        }
+
+        private void OnSystemKeyDown(object sender, KeyboardEventArgs e)
+        {
+            RecordedText = "syskey down: " + (int)e.key + "\n" + RecordedText;
+        }
+
+        private void OnSystemKeyUp(object sender, KeyboardEventArgs e)
+        {
+            RecordedText = "syskey up: " + (int)e.key + "\n" + RecordedText;
         }
 
         #region Common Fields

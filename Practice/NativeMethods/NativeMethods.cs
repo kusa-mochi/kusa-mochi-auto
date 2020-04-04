@@ -57,6 +57,16 @@ namespace Practice.NativeMethods
         public INPUT_UNION ui;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct KBDLLHOOKSTRUCT
+    {
+        public int vkCode;
+        public int scanCode;
+        public int flags;
+        public int time;
+        public IntPtr dwExtraInfo;
+    };
+
     public static class NativeMethods
     {
         public const int INPUT_MOUSE = 0;
@@ -78,16 +88,24 @@ namespace Practice.NativeMethods
         public const int KEYEVENTF_KEYUP = 0x2;
         public const int KEYEVENTF_EXTENDEDKEY = 0x1;
 
-        public const int WH_MOUSE_LL = 14;
+        public enum HookType
+        {
+            WH_KEYBOARD_LL = 13,
+            WH_MOUSE_LL = 14
+        }
 
-        public enum MouseKeyboardMessage
+        public enum MouseMessage
         {
             WM_LBUTTONDOWN = 0x0201,
             WM_LBUTTONUP = 0x0202,
             WM_MOUSEMOVE = 0x0200,
             WM_MOUSEWHEEL = 0x020A,
             WM_RBUTTONDOWN = 0x0204,
-            WM_RBUTTONUP = 0x0205,
+            WM_RBUTTONUP = 0x0205
+        }
+
+        public enum KeyboardMessage
+        {
             WM_KEYDOWN = 0x0100,
             WM_KEYUP = 0x0101,
             WM_SYSKEYDOWN = 0x0104,
