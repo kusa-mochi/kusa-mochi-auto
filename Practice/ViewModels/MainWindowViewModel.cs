@@ -158,47 +158,47 @@ namespace Practice.ViewModels
 
         private void OnMouseMove(object sender, Win32Point e)
         {
-            RecordedText = "mouse move: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+            RecordedText = "MouseMove(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
         }
 
         private void OnMouseLeftButtonDown(object sender, Win32Point e)
         {
-            RecordedText = "mouse L Down: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+            RecordedText = "MouseLeftButtonDown()\n" + RecordedText;
         }
 
         private void OnMouseLeftButtonUp(object sender, Win32Point e)
         {
-            RecordedText = "mouse L Up: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+            RecordedText = "MouseLeftButtonUp()\n" + RecordedText;
         }
 
         private void OnMouseRightButtonDown(object sender, Win32Point e)
         {
-            RecordedText = "mouse R Down: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+            RecordedText = "MouseRightButtonDown()\n" + RecordedText;
         }
 
         private void OnMouseRightButtonUp(object sender, Win32Point e)
         {
-            RecordedText = "mouse R Up: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+            RecordedText = "MouseRightButtonUp()\n" + RecordedText;
         }
 
         private void OnKeyDown(object sender, KeyboardEventArgs e)
         {
-            RecordedText = "key down: " + (int)e.key + "\n" + RecordedText;
+            RecordedText = "KeyDown(" + (int)e.key + ")\n" + RecordedText;
         }
 
         private void OnKeyUp(object sender, KeyboardEventArgs e)
         {
-            RecordedText = "key up: " + (int)e.key + "\n" + RecordedText;
+            RecordedText = "KeyUp(" + (int)e.key + ")\n" + RecordedText;
         }
 
         private void OnSystemKeyDown(object sender, KeyboardEventArgs e)
         {
-            RecordedText = "syskey down: " + (int)e.key + "\n" + RecordedText;
+            RecordedText = "SystemKeyDown(" + (int)e.key + ")\n" + RecordedText;
         }
 
         private void OnSystemKeyUp(object sender, KeyboardEventArgs e)
         {
-            RecordedText = "syskey up: " + (int)e.key + "\n" + RecordedText;
+            RecordedText = "SystemKeyUp(" + (int)e.key + ")\n" + RecordedText;
         }
 
         #region Common Fields
