@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 
 using Practice.Model;
+using Practice.NativeMethods;
 
 namespace Practice.ViewModels
 {
@@ -133,7 +134,18 @@ namespace Practice.ViewModels
 
         public MainWindowViewModel()
         {
+            InputDetector.Initialize();
+            InputDetector.MouseMove += OnMouseMove;
+        }
 
+        ~MainWindowViewModel()
+        {
+            InputDetector.Finish();
+        }
+
+        private void OnMouseMove(object sender, Win32Point e)
+        {
+            RecordedText = "mouse move: " + e.X + "," + e.Y + "\n" + RecordedText;
         }
 
         #region Common Fields

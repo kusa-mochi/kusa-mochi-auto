@@ -10,6 +10,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="practice"
     SizeToContent="WidthAndHeight"
+    MaxHeight="600"
     d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
     <Window.Resources>
         <Style

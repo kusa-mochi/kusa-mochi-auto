@@ -77,7 +77,20 @@ namespace Practice.NativeMethods
         public const int KEYEVENTF_KEYDOWN = 0x0;
         public const int KEYEVENTF_KEYUP = 0x2;
         public const int KEYEVENTF_EXTENDEDKEY = 0x1;
-        public const int VK_SHIFT = 0x10;
+
+        public const int WH_MOUSE_LL = 14;
+
+        public enum MouseMessage
+        {
+            WM_LBUTTONDOWN = 0x0201,
+            WM_LBUTTONUP = 0x0202,
+            WM_MOUSEMOVE = 0x0200,
+            WM_MOUSEWHEEL = 0x020A,
+            WM_RBUTTONDOWN = 0x0204,
+            WM_RBUTTONUP = 0x0205
+        }
+
+        public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("User32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
@@ -90,5 +103,18 @@ namespace Practice.NativeMethods
 
         [DllImport("user32.dll", EntryPoint = "MapVirtualKeyA")]
         public extern static int MapVirtualKey(int wCode, int wMapType);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 }
