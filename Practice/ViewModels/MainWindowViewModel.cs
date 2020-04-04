@@ -203,9 +203,9 @@ namespace Practice.ViewModels
 
         #region Common Fields
 
-        private MouseEmulator _mouse = new MouseEmulator();
-        private KeyboardEmulator _keyboard = new KeyboardEmulator();
-        private int _timeInterval = 8;
+        private readonly MouseEmulator _mouse = new MouseEmulator();
+        private readonly KeyboardEmulator _keyboard = new KeyboardEmulator();
+        private readonly int _timeInterval = 8;
 
         #endregion
     }
