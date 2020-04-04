@@ -87,6 +87,25 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Wheel Down After 3 sec
+
+        private DelegateCommand _WheelDownAfter3Sec;
+        public DelegateCommand WheelDownAfter3Sec =>
+            _WheelDownAfter3Sec ?? (_WheelDownAfter3Sec = new DelegateCommand(() =>
+            {
+                Task<bool> result = WheelDownAfter3SecAsync();
+            }));
+
+        private async Task<bool> WheelDownAfter3SecAsync()
+        {
+            await Task.Delay(3000);
+            _mouse.MouseWheel(-100);
+
+            return true;
+        }
+
+        #endregion
+
         #region Type Kusa Mochi
 
         private DelegateCommand _TypeKusaMochi;

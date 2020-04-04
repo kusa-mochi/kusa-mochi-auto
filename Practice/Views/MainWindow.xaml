@@ -39,6 +39,8 @@
                     Command="{Binding RightClickAfter3Sec, Mode=OneWay}">Right click after 3 sec</Button>
                 <Button
                     Command="{Binding Drag300010To300300, Mode=OneWay}">Drag 300,10 to 300,300</Button>
+                <Button
+                    Command="{Binding WheelDownAfter3Sec, Mode=OneWay}">Wheel Down After 3 sec</Button>
             </StackPanel>
         </GroupBox>
         <GroupBox

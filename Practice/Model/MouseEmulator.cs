@@ -162,5 +162,36 @@ namespace Practice.Model
 
             return true;
         }
+
+        public bool MouseWheel(int amount)
+        {
+            Win32Point mousePosition = new Win32Point
+            {
+                X = 0,
+                Y = 0
+            };
+            NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_WHEEL,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = amount,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+
+            return true;
+        }
     }
 }
