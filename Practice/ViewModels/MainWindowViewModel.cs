@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -97,22 +98,22 @@ namespace Practice.ViewModels
         {
             await Task.Delay(3000);
 
-            _keyboard.KeyDown(NativeMethods.NativeMethods.VK_SHIFT);
-            _keyboard.KeyDown(65 + 'k' - 'a');
-            _keyboard.KeyUp(65 + 'k' - 'a');
-            _keyboard.KeyUp(NativeMethods.NativeMethods.VK_SHIFT);
-            _keyboard.KeyInput(65 + 'u' - 'a');
-            _keyboard.KeyInput(65 + 's' - 'a');
-            _keyboard.KeyInput(65 + 'a' - 'a');
-            _keyboard.KeyInput(32);
-            _keyboard.KeyDown(NativeMethods.NativeMethods.VK_SHIFT);
-            _keyboard.KeyDown(65 + 'm' - 'a');
-            _keyboard.KeyUp(65 + 'm' - 'a');
-            _keyboard.KeyUp(NativeMethods.NativeMethods.VK_SHIFT);
-            _keyboard.KeyInput(65 + 'o' - 'a');
-            _keyboard.KeyInput(65 + 'c' - 'a');
-            _keyboard.KeyInput(65 + 'h' - 'a');
-            _keyboard.KeyInput(65 + 'i' - 'a');
+            _keyboard.KeyDown(Keys.ShiftKey);
+            _keyboard.KeyDown(Keys.K);
+            _keyboard.KeyUp(Keys.K);
+            _keyboard.KeyUp(Keys.ShiftKey);
+            _keyboard.KeyInput(Keys.U);
+            _keyboard.KeyInput(Keys.S);
+            _keyboard.KeyInput(Keys.A);
+            _keyboard.KeyInput(Keys.Space);
+            _keyboard.KeyDown(Keys.ShiftKey);
+            _keyboard.KeyDown(Keys.M);
+            _keyboard.KeyUp(Keys.M);
+            _keyboard.KeyUp(Keys.ShiftKey);
+            _keyboard.KeyInput(Keys.O);
+            _keyboard.KeyInput(Keys.C);
+            _keyboard.KeyInput(Keys.H);
+            _keyboard.KeyInput(Keys.I);
 
             return true;
         }

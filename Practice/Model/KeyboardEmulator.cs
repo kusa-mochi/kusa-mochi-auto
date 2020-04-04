@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 
 using Practice.NativeMethods;
 
@@ -9,6 +10,11 @@ namespace Practice.Model
 {
     public class KeyboardEmulator
     {
+        public bool KeyInput(Keys key)
+        {
+            return KeyInput((short)key);
+        }
+
         public bool KeyInput(short key)
         {
             INPUT[] inputs = new INPUT[]
@@ -49,6 +55,11 @@ namespace Practice.Model
             return true;
         }
 
+        public bool KeyDown(Keys key)
+        {
+            return KeyDown((short)key);
+        }
+
         public bool KeyDown(short key)
         {
             INPUT input = new INPUT
@@ -70,6 +81,11 @@ namespace Practice.Model
             NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
+        }
+
+        public bool KeyUp(Keys key)
+        {
+            return KeyUp((short)key);
         }
 
         public bool KeyUp(short key)
