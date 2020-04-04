@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
 
 using Practice.NativeMethods;
 
@@ -11,7 +12,31 @@ namespace Practice.Model
     {
         public bool MouseMoveTo(int x, int y)
         {
-            NativeMethods.NativeMethods.SetCursorPos(x, y);
+            int screenWidth = (int)SystemParameters.VirtualScreenWidth;
+            int screenHeight = (int)SystemParameters.VirtualScreenHeight;
+
+            int dx = x * 65535 / screenWidth;
+            int dy = y * 65535 / screenHeight;
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.NativeMethods.MOUSEEVENTF_ABSOLUTE | NativeMethods.NativeMethods.MOUSEEVENTF_MOVE | NativeMethods.NativeMethods.MOUSEEVENTF_VIRTUALDESK,
+                        dx = dx,
+                        dy = dy,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+
             return true;
         }
 

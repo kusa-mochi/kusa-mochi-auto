@@ -81,6 +81,7 @@ namespace Practice.NativeMethods
         public const int MOUSEEVENTF_RIGHTUP = 0x10;
         public const int MOUSEEVENTF_MIDDLEDOWN = 0x20;
         public const int MOUSEEVENTF_MIDDLEUP = 0x40;
+        public const int MOUSEEVENTF_VIRTUALDESK = 0x4000;
         public const int MOUSEEVENTF_WHEEL = 0x800;
         public const int WHEEL_DELTA = 120;
 
