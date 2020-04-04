@@ -127,7 +127,12 @@ namespace Practice.ViewModels
         public string RecordedText
         {
             get { return _RecordedText; }
-            set { SetProperty(ref _RecordedText, value); }
+            set
+            {
+                int maxLength = 500;
+                value = value.Length < maxLength ? value : value.Substring(0, maxLength);
+                SetProperty(ref _RecordedText, value);
+            }
         }
 
         #endregion
@@ -136,6 +141,10 @@ namespace Practice.ViewModels
         {
             InputDetector.Initialize();
             InputDetector.MouseMove += OnMouseMove;
+            InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
+            InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
+            InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
+            InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
         }
 
         ~MainWindowViewModel()
@@ -145,7 +154,27 @@ namespace Practice.ViewModels
 
         private void OnMouseMove(object sender, Win32Point e)
         {
-            RecordedText = "mouse move: " + e.X + "," + e.Y + "\n" + RecordedText;
+            RecordedText = "mouse move: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+        }
+
+        private void OnMouseLeftButtonDown(object sender, Win32Point e)
+        {
+            RecordedText = "mouse L Down: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+        }
+
+        private void OnMouseLeftButtonUp(object sender, Win32Point e)
+        {
+            RecordedText = "mouse L Up: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+        }
+
+        private void OnMouseRightButtonDown(object sender, Win32Point e)
+        {
+            RecordedText = "mouse R Down: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
+        }
+
+        private void OnMouseRightButtonUp(object sender, Win32Point e)
+        {
+            RecordedText = "mouse R Up: " + e.X.ToString("D4") + "," + e.Y.ToString("D4") + "\n" + RecordedText;
         }
 
         #region Common Fields

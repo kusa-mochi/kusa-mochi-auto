@@ -80,17 +80,21 @@ namespace Practice.NativeMethods
 
         public const int WH_MOUSE_LL = 14;
 
-        public enum MouseMessage
+        public enum MouseKeyboardMessage
         {
             WM_LBUTTONDOWN = 0x0201,
             WM_LBUTTONUP = 0x0202,
             WM_MOUSEMOVE = 0x0200,
             WM_MOUSEWHEEL = 0x020A,
             WM_RBUTTONDOWN = 0x0204,
-            WM_RBUTTONUP = 0x0205
+            WM_RBUTTONUP = 0x0205,
+            WM_KEYDOWN = 0x0100,
+            WM_KEYUP = 0x0101,
+            WM_SYSKEYDOWN = 0x0104,
+            WM_SYSKEYUP = 0x0105
         }
 
-        public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+        public delegate IntPtr LowLevelMouseKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("User32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
@@ -105,7 +109,7 @@ namespace Practice.NativeMethods
         public extern static int MapVirtualKey(int wCode, int wMapType);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+        public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
