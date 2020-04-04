@@ -11,8 +11,8 @@ namespace Practice.Model
 {
     public static class InputDetector
     {
-        private static NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
-        private static NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
+        private static readonly NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
+        private static readonly NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
         private static IntPtr _keyboardHookId = IntPtr.Zero;
 
