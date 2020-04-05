@@ -150,25 +150,5 @@ namespace Practice.NativeMethods
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        public static ushort HIWORD(IntPtr dwValue)
-        {
-            return (ushort)((((long)dwValue) >> 0x10) & 0xffff);
-        }
-
-        public static ushort HIWORD(uint dwValue)
-        {
-            return (ushort)(dwValue >> 0x10);
-        }
-
-        public static int GET_WHEEL_DELTA_WPARAM(IntPtr wParam)
-        {
-            return (short)HIWORD(wParam);
-        }
-
-        public static int GET_WHEEL_DELTA_WPARAM(uint wParam)
-        {
-            return (short)HIWORD(wParam);
-        }
     }
 }
