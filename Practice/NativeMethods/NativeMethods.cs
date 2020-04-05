@@ -126,17 +126,19 @@ namespace Practice.NativeMethods
 
         public delegate IntPtr LowLevelMouseKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("User32.dll")]
+        #region user32.dll
+
+        [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool GetCursorPos(ref Win32Point pt);
 
         [DllImport("user32.dll")]
-        public extern static void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
+        public static extern void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
 
         [DllImport("user32.dll", EntryPoint = "MapVirtualKeyA")]
-        public extern static int MapVirtualKey(int wCode, int wMapType);
+        public static extern int MapVirtualKey(int wCode, int wMapType);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -148,6 +150,10 @@ namespace Practice.NativeMethods
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
+        #endregion
+
+        #region kernel32.dll
+
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
@@ -156,5 +162,7 @@ namespace Practice.NativeMethods
 
         [DllImport("kernel32.dll")]
         public static extern bool QueryPerformanceFrequency(ref long lpFrequency);
+
+        #endregion
     }
 }
