@@ -12,99 +12,98 @@ namespace KusaMochiAutoLibrary.NativeFunctions
         public Int32 Y;
     };
 
-
     [StructLayout(LayoutKind.Sequential)]
-    public struct MOUSEINPUT
+    internal struct MOUSEINPUT
     {
-        public int dx;
-        public int dy;
-        public int mouseData;
-        public int dwFlags;
-        public int time;
-        public IntPtr dwExtraInfo;
+        internal int dx;
+        internal int dy;
+        internal int mouseData;
+        internal int dwFlags;
+        internal int time;
+        internal IntPtr dwExtraInfo;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct KEYBDINPUT
+    internal struct KEYBDINPUT
     {
-        public short wVk;
-        public short wScan;
-        public int dwFlags;
-        public int time;
-        public IntPtr dwExtraInfo;
+        internal short wVk;
+        internal short wScan;
+        internal int dwFlags;
+        internal int time;
+        internal IntPtr dwExtraInfo;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct HARDWAREINPUT
+    internal struct HARDWAREINPUT
     {
-        public int uMsg;
-        public short wParamL;
-        public short wParamH;
+        internal int uMsg;
+        internal short wParamL;
+        internal short wParamH;
     };
 
     [StructLayout(LayoutKind.Explicit)]
-    public struct INPUT_UNION
+    internal struct INPUT_UNION
     {
-        [FieldOffset(0)] public MOUSEINPUT mouse;
-        [FieldOffset(0)] public KEYBDINPUT keyboard;
-        [FieldOffset(0)] public HARDWAREINPUT hardware;
+        [FieldOffset(0)] internal MOUSEINPUT mouse;
+        [FieldOffset(0)] internal KEYBDINPUT keyboard;
+        [FieldOffset(0)] internal HARDWAREINPUT hardware;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct INPUT
+    internal struct INPUT
     {
-        public int type;
-        public INPUT_UNION ui;
+        internal int type;
+        internal INPUT_UNION ui;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MSLLHOOKSTRUCT
+    internal struct MSLLHOOKSTRUCT
     {
-        public Win32Point pt;
-        public int mouseData;
-        public int flags;
-        public int time;
-        public IntPtr dwExtraInfo;
+        internal Win32Point pt;
+        internal int mouseData;
+        internal int flags;
+        internal int time;
+        internal IntPtr dwExtraInfo;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct KBDLLHOOKSTRUCT
+    internal struct KBDLLHOOKSTRUCT
     {
-        public int vkCode;
-        public int scanCode;
-        public int flags;
-        public int time;
-        public IntPtr dwExtraInfo;
+        internal int vkCode;
+        internal int scanCode;
+        internal int flags;
+        internal int time;
+        internal IntPtr dwExtraInfo;
     };
 
-    public static class NativeMethods
+    internal static class NativeMethods
     {
-        public const int INPUT_MOUSE = 0;
-        public const int INPUT_KEYBOARD = 1;
-        public const int INPUT_HARDWARE = 2;
+        internal const int INPUT_MOUSE = 0;
+        internal const int INPUT_KEYBOARD = 1;
+        internal const int INPUT_HARDWARE = 2;
 
-        public const int MOUSEEVENTF_MOVE = 0x1;
-        public const int MOUSEEVENTF_ABSOLUTE = 0x8000;
-        public const int MOUSEEVENTF_LEFTDOWN = 0x2;
-        public const int MOUSEEVENTF_LEFTUP = 0x4;
-        public const int MOUSEEVENTF_RIGHTDOWN = 0x8;
-        public const int MOUSEEVENTF_RIGHTUP = 0x10;
-        public const int MOUSEEVENTF_MIDDLEDOWN = 0x20;
-        public const int MOUSEEVENTF_MIDDLEUP = 0x40;
-        public const int MOUSEEVENTF_WHEEL = 0x800;
-        public const int WHEEL_DELTA = 120;
+        internal const int MOUSEEVENTF_MOVE = 0x1;
+        internal const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        internal const int MOUSEEVENTF_LEFTDOWN = 0x2;
+        internal const int MOUSEEVENTF_LEFTUP = 0x4;
+        internal const int MOUSEEVENTF_RIGHTDOWN = 0x8;
+        internal const int MOUSEEVENTF_RIGHTUP = 0x10;
+        internal const int MOUSEEVENTF_MIDDLEDOWN = 0x20;
+        internal const int MOUSEEVENTF_MIDDLEUP = 0x40;
+        internal const int MOUSEEVENTF_WHEEL = 0x800;
+        internal const int WHEEL_DELTA = 120;
 
-        public const int KEYEVENTF_KEYDOWN = 0x0;
-        public const int KEYEVENTF_KEYUP = 0x2;
-        public const int KEYEVENTF_EXTENDEDKEY = 0x1;
+        internal const int KEYEVENTF_KEYDOWN = 0x0;
+        internal const int KEYEVENTF_KEYUP = 0x2;
+        internal const int KEYEVENTF_EXTENDEDKEY = 0x1;
 
-        public enum HookType
+        internal enum HookType
         {
             WH_KEYBOARD_LL = 13,
             WH_MOUSE_LL = 14
         }
 
-        public enum MouseMessage
+        internal enum MouseMessage
         {
             WM_LBUTTONDOWN = 0x0201,
             WM_LBUTTONUP = 0x0202,
@@ -116,7 +115,7 @@ namespace KusaMochiAutoLibrary.NativeFunctions
             WM_MBUTTONUP = 0x0208
         }
 
-        public enum KeyboardMessage
+        internal enum KeyboardMessage
         {
             WM_KEYDOWN = 0x0100,
             WM_KEYUP = 0x0101,
@@ -124,44 +123,44 @@ namespace KusaMochiAutoLibrary.NativeFunctions
             WM_SYSKEYUP = 0x0105
         }
 
-        public delegate IntPtr LowLevelMouseKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        internal delegate IntPtr LowLevelMouseKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         #region user32.dll
 
         [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int X, int Y);
+        internal static extern bool SetCursorPos(int X, int Y);
 
         [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(ref Win32Point pt);
+        internal static extern bool GetCursorPos(ref Win32Point pt);
 
         [DllImport("user32.dll")]
-        public static extern void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
+        internal static extern void SendInput(int nInputs, ref INPUT pInputs, int cbsize);
 
         [DllImport("user32.dll", EntryPoint = "MapVirtualKeyA")]
-        public static extern int MapVirtualKey(int wCode, int wMapType);
+        internal static extern int MapVirtualKey(int wCode, int wMapType);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+        internal static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         #endregion
 
         #region kernel32.dll
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr GetModuleHandle(string lpModuleName);
+        internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport("kernel32.dll")]
-        public static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
+        internal static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
 
         [DllImport("kernel32.dll")]
-        public static extern bool QueryPerformanceFrequency(ref long lpFrequency);
+        internal static extern bool QueryPerformanceFrequency(ref long lpFrequency);
 
         #endregion
     }

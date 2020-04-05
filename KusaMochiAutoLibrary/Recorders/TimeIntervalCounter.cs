@@ -6,9 +6,9 @@ using KusaMochiAutoLibrary.NativeFunctions;
 
 namespace KusaMochiAutoLibrary.Recorders
 {
-    public class TimeIntervalCounter
+    internal class TimeIntervalCounter
     {
-        public TimeIntervalCounter()
+        internal TimeIntervalCounter()
         {
             NativeMethods.QueryPerformanceFrequency(ref _frequency);
         }
@@ -16,7 +16,7 @@ namespace KusaMochiAutoLibrary.Recorders
         /// <summary>
         /// current counter value [msec]
         /// </summary>
-        public double CurrentCount
+        internal double CurrentCount
         {
             get
             {
@@ -29,12 +29,12 @@ namespace KusaMochiAutoLibrary.Recorders
         private long _stopCounter = 0L;
         private long _frequency = 0L;
 
-        public void Start()
+        internal void Start()
         {
             NativeMethods.QueryPerformanceCounter(ref _startCounter);
         }
 
-        public void Restart()
+        internal void Restart()
         {
             Start();
         }
