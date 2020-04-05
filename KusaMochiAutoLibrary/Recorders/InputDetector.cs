@@ -5,7 +5,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace KusaMochiAutoLibrary
+using KusaMochiAutoLibrary.NativeFunctions;
+using KusaMochiAutoLibrary.EventArgs;
+
+namespace KusaMochiAutoLibrary.Recorders
 {
     public static class InputDetector
     {

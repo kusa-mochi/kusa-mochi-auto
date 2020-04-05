@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace KusaMochiAutoLibrary
+using KusaMochiAutoLibrary.NativeFunctions;
+
+namespace KusaMochiAutoLibrary.Emulators
 {
     public class MouseEmulator
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace KusaMochiAutoLibrary
+namespace KusaMochiAutoLibrary.NativeFunctions
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct Win32Point

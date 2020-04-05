@@ -5,7 +5,10 @@ using System.Windows.Forms;
 using Prism.Commands;
 using Prism.Mvvm;
 
-using KusaMochiAutoLibrary;
+using KusaMochiAutoLibrary.NativeFunctions;
+using KusaMochiAutoLibrary.EventArgs;
+using KusaMochiAutoLibrary.Emulators;
+using KusaMochiAutoLibrary.Recorders;
 
 namespace Practice.ViewModels
 {

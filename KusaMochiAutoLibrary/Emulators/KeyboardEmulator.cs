@@ -4,7 +4,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace KusaMochiAutoLibrary
+using KusaMochiAutoLibrary.NativeFunctions;
+
+namespace KusaMochiAutoLibrary.Emulators
 {
     public class KeyboardEmulator
     {

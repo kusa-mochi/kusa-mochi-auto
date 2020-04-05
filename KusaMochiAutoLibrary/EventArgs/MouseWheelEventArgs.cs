@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KusaMochiAutoLibrary
+using KusaMochiAutoLibrary.NativeFunctions;
+
+namespace KusaMochiAutoLibrary.EventArgs
 {
     public class MouseWheelEventArgs
     {
