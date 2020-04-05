@@ -1,5 +1,14 @@
-﻿using Prism.Commands;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Win32;
+
+using Prism.Commands;
 using Prism.Mvvm;
+
+using KusaMochiAutoLibrary.Recorders;
+using KusaMochiAutoLibrary.EventArgs;
+using System;
+using KusaMochiAutoLibrary.NativeFunctions;
 
 namespace KusaMochiAuto.ViewModels
 {
@@ -35,7 +44,7 @@ namespace KusaMochiAuto.ViewModels
 
         #endregion
 
-        #region コマンド
+        #region RecordCommand
 
         private DelegateCommand _RecordCommand;
         public DelegateCommand RecordCommand =>
@@ -43,7 +52,25 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = true;
+                    _recordedSource = "";
+                    InputDetector.Initialize();
+                    InputDetector.MouseMove += OnMouseMove;
+                    InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
+                    InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
+                    InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
+                    InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
+                    InputDetector.MouseWheel += OnMouseWheel;
+                    InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
+                    InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
+                    InputDetector.KeyDown += OnKeyDown;
+                    InputDetector.KeyUp += OnKeyUp;
+                    InputDetector.SystemKeyDown += OnSystemKeyDown;
+                    InputDetector.SystemKeyUp += OnSystemKeyUp;
                 }));
+
+        #endregion
+
+        #region StopCommand
 
         private DelegateCommand _StopCommand;
         public DelegateCommand StopCommand =>
@@ -51,7 +78,92 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = false;
+                    InputDetector.Finish();
+                    SaveFileDialog dialog = new SaveFileDialog();
+                    if (dialog.ShowDialog() == true)
+                    {
+                        using (StreamWriter writer = new StreamWriter(dialog.FileName))
+                        {
+                            System.Windows.MessageBox.Show(_recordedSource);
+                            writer.Write(_recordedSource);
+                        }
+
+                    }
                 }));
+
+        #endregion
+
+        #region Event Handlers
+
+        private void OnMouseMove(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseMove(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseLeftButtonDown(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseLDown(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseLeftButtonUp(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseLUp(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseRightButtonDown(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseRDown(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseRightButtonUp(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseRUp(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            _recordedSource += "MouseWheel(" + e.Position.X + "," + e.Position.Y + "," + e.AmountOfMovement + ")\n";
+        }
+
+        private void OnMouseMiddleButtonDown(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseMDown(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnMouseMiddleButtonUp(object sender, Win32Point e)
+        {
+            _recordedSource += "MouseMUp(" + e.X + "," + e.Y + ")\n";
+        }
+
+        private void OnKeyDown(object sender, KeyboardEventArgs e)
+        {
+            _recordedSource += "KeyDown(" + (int)e.key + ")\n";
+        }
+
+        private void OnKeyUp(object sender, KeyboardEventArgs e)
+        {
+            _recordedSource += "KeyUp(" + (int)e.key + ")\n";
+        }
+
+        private void OnSystemKeyDown(object sender, KeyboardEventArgs e)
+        {
+            _recordedSource += "SystemKeyDown(" + (int)e.key + ")\n";
+        }
+
+        private void OnSystemKeyUp(object sender, KeyboardEventArgs e)
+        {
+            _recordedSource += "SystemKeyUp(" + (int)e.key + ")\n";
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        #endregion
+
+        #region Fields
+
+        private string _recordedSource = "";
 
         #endregion
 

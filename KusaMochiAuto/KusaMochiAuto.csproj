@@ -11,4 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KusaMochiAutoLibrary\KusaMochiAutoLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
 </Project>
