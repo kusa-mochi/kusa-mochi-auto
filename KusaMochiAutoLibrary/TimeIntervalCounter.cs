@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Practice.NativeMethods;
-
-namespace Practice.Model
+namespace KusaMochiAutoLibrary
 {
     public class TimeIntervalCounter
     {
         public TimeIntervalCounter()
         {
-            NativeMethods.NativeMethods.QueryPerformanceFrequency(ref _frequency);
+            NativeMethods.QueryPerformanceFrequency(ref _frequency);
         }
 
         /// <summary>
@@ -20,7 +18,7 @@ namespace Practice.Model
         {
             get
             {
-                NativeMethods.NativeMethods.QueryPerformanceCounter(ref _stopCounter);
+                NativeMethods.QueryPerformanceCounter(ref _stopCounter);
                 return (double)(_stopCounter - _startCounter) * 1000.0 / _frequency;
             }
         }
@@ -31,7 +29,7 @@ namespace Practice.Model
 
         public void Start()
         {
-            NativeMethods.NativeMethods.QueryPerformanceCounter(ref _startCounter);
+            NativeMethods.QueryPerformanceCounter(ref _startCounter);
         }
 
         public void Restart()

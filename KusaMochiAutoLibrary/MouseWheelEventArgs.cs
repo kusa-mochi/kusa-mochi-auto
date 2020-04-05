@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Practice.NativeMethods;
-
-namespace Practice.Model
+namespace KusaMochiAutoLibrary
 {
     public class MouseWheelEventArgs
     {

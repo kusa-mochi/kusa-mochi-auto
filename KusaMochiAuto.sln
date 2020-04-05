@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KusaMochiAuto", "KusaMochiAuto\KusaMochiAuto.csproj", "{FE259F6F-6B8B-4D4E-AB10-C01A1CA59761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practice", "Practice\Practice.csproj", "{0974C0FC-521D-474C-BFED-AD46B4923388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Practice", "Practice\Practice.csproj", "{0974C0FC-521D-474C-BFED-AD46B4923388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KusaMochiAutoLibrary", "KusaMochiAutoLibrary\KusaMochiAutoLibrary.csproj", "{02C19368-057F-4E26-82CA-A149AF28FE46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0974C0FC-521D-474C-BFED-AD46B4923388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0974C0FC-521D-474C-BFED-AD46B4923388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0974C0FC-521D-474C-BFED-AD46B4923388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02C19368-057F-4E26-82CA-A149AF28FE46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02C19368-057F-4E26-82CA-A149AF28FE46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02C19368-057F-4E26-82CA-A149AF28FE46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02C19368-057F-4E26-82CA-A149AF28FE46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,9 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-using Practice.NativeMethods;
-
-namespace Practice.Model
+namespace KusaMochiAutoLibrary
 {
     public class KeyboardEmulator
     {
@@ -21,28 +19,28 @@ namespace Practice.Model
             {
                 new INPUT
                 {
-                    type = NativeMethods.NativeMethods.INPUT_KEYBOARD,
+                    type = NativeMethods.INPUT_KEYBOARD,
                     ui = new INPUT_UNION
                     {
                         keyboard = new KEYBDINPUT
                         {
                             wVk = key,
-                            wScan = (short)NativeMethods.NativeMethods.MapVirtualKey(key, 0),
-                            dwFlags = NativeMethods.NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.NativeMethods.KEYEVENTF_KEYDOWN,
+                            wScan = (short)NativeMethods.MapVirtualKey(key, 0),
+                            dwFlags = NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.KEYEVENTF_KEYDOWN,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
                         }
                     }
                 },
                 new INPUT{
-                    type = NativeMethods.NativeMethods.INPUT_KEYBOARD,
+                    type = NativeMethods.INPUT_KEYBOARD,
                     ui = new INPUT_UNION
                     {
                         keyboard = new KEYBDINPUT
                         {
                             wVk = key,
-                            wScan = (short)NativeMethods.NativeMethods.MapVirtualKey(key, 0),
-                            dwFlags = NativeMethods.NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.NativeMethods.KEYEVENTF_KEYUP,
+                            wScan = (short)NativeMethods.MapVirtualKey(key, 0),
+                            dwFlags = NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.KEYEVENTF_KEYUP,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
                         }
@@ -50,7 +48,7 @@ namespace Practice.Model
                 }
             };
 
-            NativeMethods.NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
+            NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
 
             return true;
         }
@@ -64,21 +62,21 @@ namespace Practice.Model
         {
             INPUT input = new INPUT
             {
-                type = NativeMethods.NativeMethods.INPUT_KEYBOARD,
+                type = NativeMethods.INPUT_KEYBOARD,
                 ui = new INPUT_UNION
                 {
                     keyboard = new KEYBDINPUT
                     {
                         wVk = key,
-                        wScan = (short)NativeMethods.NativeMethods.MapVirtualKey(key, 0),
-                        dwFlags = NativeMethods.NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.NativeMethods.KEYEVENTF_KEYDOWN,
+                        wScan = (short)NativeMethods.MapVirtualKey(key, 0),
+                        dwFlags = NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.KEYEVENTF_KEYDOWN,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
                     }
                 }
             };
 
-            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
         }
@@ -92,21 +90,21 @@ namespace Practice.Model
         {
             INPUT input = new INPUT
             {
-                type = NativeMethods.NativeMethods.INPUT_KEYBOARD,
+                type = NativeMethods.INPUT_KEYBOARD,
                 ui = new INPUT_UNION
                 {
                     keyboard = new KEYBDINPUT
                     {
                         wVk = key,
-                        wScan = (short)NativeMethods.NativeMethods.MapVirtualKey(key, 0),
-                        dwFlags = NativeMethods.NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.NativeMethods.KEYEVENTF_KEYUP,
+                        wScan = (short)NativeMethods.MapVirtualKey(key, 0),
+                        dwFlags = NativeMethods.KEYEVENTF_EXTENDEDKEY | NativeMethods.KEYEVENTF_KEYUP,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
                     }
                 }
             };
 
-            NativeMethods.NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
         }

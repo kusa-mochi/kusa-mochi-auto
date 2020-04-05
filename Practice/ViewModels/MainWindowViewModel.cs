@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using Prism.Commands;
 using Prism.Mvvm;
 
-using Practice.Model;
-using Practice.NativeMethods;
+using KusaMochiAutoLibrary;
 
 namespace Practice.ViewModels
 {

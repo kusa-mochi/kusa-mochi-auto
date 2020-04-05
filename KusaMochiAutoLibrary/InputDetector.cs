@@ -5,14 +5,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-using Practice.NativeMethods;
-
-namespace Practice.Model
+namespace KusaMochiAutoLibrary
 {
     public static class InputDetector
     {
-        private static readonly NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
-        private static readonly NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
+        private static readonly NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
+        private static readonly NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
         private static IntPtr _keyboardHookId = IntPtr.Zero;
         private static TimeIntervalCounter _timeCounter = new TimeIntervalCounter();
@@ -37,8 +35,8 @@ namespace Practice.Model
 
         public static void Initialize()
         {
-            _mouseHookId = SetHook(_mouseProc, NativeMethods.NativeMethods.HookType.WH_MOUSE_LL);
-            _keyboardHookId = SetHook(_keyboardProc, NativeMethods.NativeMethods.HookType.WH_KEYBOARD_LL);
+            _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
+            _keyboardHookId = SetHook(_keyboardProc, NativeMethods.HookType.WH_KEYBOARD_LL);
             _timeCounter.Start();
         }
 
@@ -48,15 +46,15 @@ namespace Practice.Model
             UnsetHook(_keyboardHookId);
         }
 
-        private static IntPtr SetHook(NativeMethods.NativeMethods.LowLevelMouseKeyboardProc proc, NativeMethods.NativeMethods.HookType hookType)
+        private static IntPtr SetHook(NativeMethods.LowLevelMouseKeyboardProc proc, NativeMethods.HookType hookType)
         {
             using (Process currentProcess = Process.GetCurrentProcess())
             using (ProcessModule currentModule = currentProcess.MainModule)
             {
-                return NativeMethods.NativeMethods.SetWindowsHookEx(
+                return NativeMethods.SetWindowsHookEx(
                     (int)hookType,
                     proc,
-                    NativeMethods.NativeMethods.GetModuleHandle(currentModule.ModuleName),
+                    NativeMethods.GetModuleHandle(currentModule.ModuleName),
                     0
                     );
             }
@@ -64,14 +62,14 @@ namespace Practice.Model
 
         private static bool UnsetHook(IntPtr hookId)
         {
-            return NativeMethods.NativeMethods.UnhookWindowsHookEx(hookId);
+            return NativeMethods.UnhookWindowsHookEx(hookId);
         }
 
         private static IntPtr MouseInputCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode < 0)
             {
-                return NativeMethods.NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
+                return NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
             }
 
             MSLLHOOKSTRUCT param = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
@@ -81,54 +79,54 @@ namespace Practice.Model
                 X = 0,
                 Y = 0
             };
-            NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
+            NativeMethods.GetCursorPos(ref mousePosition);
 
-            switch ((NativeMethods.NativeMethods.MouseMessage)wParam)
+            switch ((NativeMethods.MouseMessage)wParam)
             {
-                case NativeMethods.NativeMethods.MouseMessage.WM_LBUTTONDOWN:
+                case NativeMethods.MouseMessage.WM_LBUTTONDOWN:
                     MouseLeftButtonDown?.Invoke(null, mousePosition);
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_LBUTTONUP:
+                case NativeMethods.MouseMessage.WM_LBUTTONUP:
                     MouseLeftButtonUp?.Invoke(null, mousePosition);
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEMOVE:
+                case NativeMethods.MouseMessage.WM_MOUSEMOVE:
                     if (_timeCounter.CurrentCount > _mouseMoveTimeInterval)
                     {
                         MouseMove?.Invoke(null, mousePosition);
                         _timeCounter.Restart();
                     }
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEWHEEL:
+                case NativeMethods.MouseMessage.WM_MOUSEWHEEL:
                     MouseWheel?.Invoke(null, new MouseWheelEventArgs
                     {
                         Position = mousePosition,
                         AmountOfMovement = param.mouseData >> 16
                     });
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_RBUTTONDOWN:
+                case NativeMethods.MouseMessage.WM_RBUTTONDOWN:
                     MouseRightButtonDown?.Invoke(null, mousePosition);
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_RBUTTONUP:
+                case NativeMethods.MouseMessage.WM_RBUTTONUP:
                     MouseRightButtonUp?.Invoke(null, mousePosition);
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_MBUTTONDOWN:
+                case NativeMethods.MouseMessage.WM_MBUTTONDOWN:
                     MouseMiddleButtonDown?.Invoke(null, mousePosition);
                     break;
-                case NativeMethods.NativeMethods.MouseMessage.WM_MBUTTONUP:
+                case NativeMethods.MouseMessage.WM_MBUTTONUP:
                     MouseMiddleButtonUp?.Invoke(null, mousePosition);
                     break;
                 default:
                     break;
             }
 
-            return NativeMethods.NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
         }
 
         private static IntPtr KeyboardInputCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode < 0)
             {
-                return NativeMethods.NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
+                return NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
             }
 
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
@@ -137,25 +135,25 @@ namespace Practice.Model
                 key = (Keys)param.scanCode
             };
 
-            switch ((NativeMethods.NativeMethods.KeyboardMessage)wParam)
+            switch ((NativeMethods.KeyboardMessage)wParam)
             {
-                case NativeMethods.NativeMethods.KeyboardMessage.WM_KEYDOWN:
+                case NativeMethods.KeyboardMessage.WM_KEYDOWN:
                     KeyDown?.Invoke(null, args);
                     break;
-                case NativeMethods.NativeMethods.KeyboardMessage.WM_KEYUP:
+                case NativeMethods.KeyboardMessage.WM_KEYUP:
                     KeyUp?.Invoke(null, args);
                     break;
-                case NativeMethods.NativeMethods.KeyboardMessage.WM_SYSKEYDOWN:
+                case NativeMethods.KeyboardMessage.WM_SYSKEYDOWN:
                     SystemKeyDown?.Invoke(null, args);
                     break;
-                case NativeMethods.NativeMethods.KeyboardMessage.WM_SYSKEYUP:
+                case NativeMethods.KeyboardMessage.WM_SYSKEYUP:
                     SystemKeyUp?.Invoke(null, args);
                     break;
                 default:
                     break;
             }
 
-            return NativeMethods.NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
         }
     }
 }
