@@ -23,6 +23,8 @@ namespace Practice.Model
         public static event EventHandler<Win32Point> MouseRightButtonDown;
         public static event EventHandler<Win32Point> MouseLeftButtonUp;
         public static event EventHandler<Win32Point> MouseRightButtonUp;
+        public static event EventHandler<Win32Point> MouseMiddleButtonDown;
+        public static event EventHandler<Win32Point> MouseMiddleButtonUp;
         public static event EventHandler<KeyboardEventArgs> KeyDown;
         public static event EventHandler<KeyboardEventArgs> KeyUp;
         public static event EventHandler<KeyboardEventArgs> SystemKeyDown;

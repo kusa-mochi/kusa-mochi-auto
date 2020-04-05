@@ -106,6 +106,26 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Middle Button Press After 3 sec
+
+        private DelegateCommand _MiddleButtonPressAfter3Sec;
+        public DelegateCommand MiddleButtonPressAfter3Sec =>
+            _MiddleButtonPressAfter3Sec ?? (_MiddleButtonPressAfter3Sec = new DelegateCommand(() =>
+            {
+                Task<bool> resul = MiddleButtonPressAfter3SecAsync();
+            }));
+
+        private async Task<bool> MiddleButtonPressAfter3SecAsync()
+        {
+            await Task.Delay(3000);
+            _mouse.MouseMiddleDown();
+            _mouse.MouseMiddleUp();
+
+            return true;
+        }
+
+        #endregion
+
         #region Type Kusa Mochi
 
         private DelegateCommand _TypeKusaMochi;
