@@ -160,6 +160,25 @@ namespace Practice.ViewModels
 
         #endregion
 
+        #region Type Windows key
+
+        private DelegateCommand _TypeWindowsKey;
+        public DelegateCommand TypeWindowsKey =>
+            _TypeWindowsKey ?? (_TypeWindowsKey = new DelegateCommand(() =>
+            {
+                Task<bool> result = TypeWindowsKeyAsync();
+            }));
+        private async Task<bool> TypeWindowsKeyAsync()
+        {
+            await Task.Delay(3000);
+
+            _keyboard.KeyInput(Keys.LWin);
+
+            return true;
+        }
+
+        #endregion
+
         #region Record Events
 
         private string _RecordedText = "";
@@ -184,6 +203,9 @@ namespace Practice.ViewModels
             InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
             InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
             InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
+            InputDetector.MouseWheel += OnMouseWheel;
+            InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
+            InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
             InputDetector.KeyDown += OnKeyDown;
             InputDetector.KeyUp += OnKeyUp;
             InputDetector.SystemKeyDown += OnSystemKeyDown;
@@ -202,22 +224,37 @@ namespace Practice.ViewModels
 
         private void OnMouseLeftButtonDown(object sender, Win32Point e)
         {
-            RecordedText = "MouseLeftButtonDown()\n" + RecordedText;
+            RecordedText = "MouseLeftButtonDown(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
         }
 
         private void OnMouseLeftButtonUp(object sender, Win32Point e)
         {
-            RecordedText = "MouseLeftButtonUp()\n" + RecordedText;
+            RecordedText = "MouseLeftButtonUp(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
         }
 
         private void OnMouseRightButtonDown(object sender, Win32Point e)
         {
-            RecordedText = "MouseRightButtonDown()\n" + RecordedText;
+            RecordedText = "MouseRightButtonDown(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
         }
 
         private void OnMouseRightButtonUp(object sender, Win32Point e)
         {
-            RecordedText = "MouseRightButtonUp()\n" + RecordedText;
+            RecordedText = "MouseRightButtonUp(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
+        }
+
+        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            RecordedText = "MouseWheel(" + e.Position.X.ToString("D4") + "," + e.Position.Y.ToString("D4") + "," + e.AmountOfMovement + ")\n" + RecordedText;
+        }
+
+        private void OnMouseMiddleButtonDown(object sender, Win32Point e)
+        {
+            RecordedText = "MouseMiddleButtonDown(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
+        }
+
+        private void OnMouseMiddleButtonUp(object sender, Win32Point e)
+        {
+            RecordedText = "MouseMiddleButtonUp(" + e.X.ToString("D4") + "," + e.Y.ToString("D4") + ")\n" + RecordedText;
         }
 
         private void OnKeyDown(object sender, KeyboardEventArgs e)

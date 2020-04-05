@@ -58,6 +58,16 @@ namespace Practice.NativeMethods
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct MSLLHOOKSTRUCT
+    {
+        public Win32Point pt;
+        public int mouseData;
+        public int flags;
+        public int time;
+        public IntPtr dwExtraInfo;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct KBDLLHOOKSTRUCT
     {
         public int vkCode;
@@ -101,7 +111,9 @@ namespace Practice.NativeMethods
             WM_MOUSEMOVE = 0x0200,
             WM_MOUSEWHEEL = 0x020A,
             WM_RBUTTONDOWN = 0x0204,
-            WM_RBUTTONUP = 0x0205
+            WM_RBUTTONUP = 0x0205,
+            WM_MBUTTONDOWN = 0x0207,
+            WM_MBUTTONUP = 0x0208
         }
 
         public enum KeyboardMessage
@@ -138,5 +150,25 @@ namespace Practice.NativeMethods
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        public static ushort HIWORD(IntPtr dwValue)
+        {
+            return (ushort)((((long)dwValue) >> 0x10) & 0xffff);
+        }
+
+        public static ushort HIWORD(uint dwValue)
+        {
+            return (ushort)(dwValue >> 0x10);
+        }
+
+        public static int GET_WHEEL_DELTA_WPARAM(IntPtr wParam)
+        {
+            return (short)HIWORD(wParam);
+        }
+
+        public static int GET_WHEEL_DELTA_WPARAM(uint wParam)
+        {
+            return (short)HIWORD(wParam);
+        }
     }
 }

@@ -51,6 +51,8 @@
             <StackPanel>
                 <Button
                     Command="{Binding TypeKusaMochi, Mode=OneWay}">Type "Kusa Mochi"</Button>
+                <Button
+                    Command="{Binding TypeWindowsKey, Mode=OneWay}">Type Windows key</Button>
             </StackPanel>
         </GroupBox>
         <GroupBox
@@ -65,7 +67,7 @@
             Header="Record Events">
             <TextBox
                 Text="{Binding RecordedText}"
-                Width="150"
+                Width="200"
                 MinHeight="200"
                 IsReadOnly="True"></TextBox>
         </GroupBox>

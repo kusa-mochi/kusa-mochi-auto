@@ -23,6 +23,7 @@ namespace Practice.Model
         public static event EventHandler<Win32Point> MouseRightButtonDown;
         public static event EventHandler<Win32Point> MouseLeftButtonUp;
         public static event EventHandler<Win32Point> MouseRightButtonUp;
+        public static event EventHandler<MouseWheelEventArgs> MouseWheel;
         public static event EventHandler<Win32Point> MouseMiddleButtonDown;
         public static event EventHandler<Win32Point> MouseMiddleButtonUp;
         public static event EventHandler<KeyboardEventArgs> KeyDown;
@@ -70,35 +71,44 @@ namespace Practice.Model
                 return NativeMethods.NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
             }
 
+            MSLLHOOKSTRUCT param = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
+
             Win32Point mousePosition = new Win32Point
             {
                 X = 0,
                 Y = 0
             };
+            NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
 
             switch ((NativeMethods.NativeMethods.MouseMessage)wParam)
             {
                 case NativeMethods.NativeMethods.MouseMessage.WM_LBUTTONDOWN:
-                    NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
                     MouseLeftButtonDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_LBUTTONUP:
-                    NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
                     MouseLeftButtonUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEMOVE:
-                    NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
                     MouseMove?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEWHEEL:
+                    MouseWheel?.Invoke(null, new MouseWheelEventArgs
+                    {
+                        Position = mousePosition,
+                        AmountOfMovement = param.mouseData >> 16
+                    });
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_RBUTTONDOWN:
-                    NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
                     MouseRightButtonDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_RBUTTONUP:
-                    NativeMethods.NativeMethods.GetCursorPos(ref mousePosition);
                     MouseRightButtonUp?.Invoke(null, mousePosition);
+                    break;
+                case NativeMethods.NativeMethods.MouseMessage.WM_MBUTTONDOWN:
+                    MouseMiddleButtonDown?.Invoke(null, mousePosition);
+                    break;
+                case NativeMethods.NativeMethods.MouseMessage.WM_MBUTTONUP:
+                    MouseMiddleButtonUp?.Invoke(null, mousePosition);
                     break;
                 default:
                     break;
