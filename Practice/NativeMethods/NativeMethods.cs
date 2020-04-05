@@ -150,5 +150,11 @@ namespace Practice.NativeMethods
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool QueryPerformanceFrequency(ref long lpFrequency);
     }
 }

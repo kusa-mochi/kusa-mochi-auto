@@ -15,6 +15,8 @@ namespace Practice.Model
         private static readonly NativeMethods.NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
         private static IntPtr _keyboardHookId = IntPtr.Zero;
+        private static TimeIntervalCounter _timeCounter = new TimeIntervalCounter();
+        private static double _mouseMoveTimeInterval = 33.0;
 
         #region Events
 
@@ -37,6 +39,7 @@ namespace Practice.Model
         {
             _mouseHookId = SetHook(_mouseProc, NativeMethods.NativeMethods.HookType.WH_MOUSE_LL);
             _keyboardHookId = SetHook(_keyboardProc, NativeMethods.NativeMethods.HookType.WH_KEYBOARD_LL);
+            _timeCounter.Start();
         }
 
         public static void Finish()
@@ -89,7 +92,11 @@ namespace Practice.Model
                     MouseLeftButtonUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEMOVE:
-                    MouseMove?.Invoke(null, mousePosition);
+                    if (_timeCounter.CurrentCount > _mouseMoveTimeInterval)
+                    {
+                        MouseMove?.Invoke(null, mousePosition);
+                        _timeCounter.Restart();
+                    }
                     break;
                 case NativeMethods.NativeMethods.MouseMessage.WM_MOUSEWHEEL:
                     MouseWheel?.Invoke(null, new MouseWheelEventArgs
