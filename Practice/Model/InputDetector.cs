@@ -115,7 +115,8 @@ namespace Practice.Model
             }
 
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
-            KeyboardEventArgs args = new KeyboardEventArgs {
+            KeyboardEventArgs args = new KeyboardEventArgs
+            {
                 key = (Keys)param.scanCode
             };
 
