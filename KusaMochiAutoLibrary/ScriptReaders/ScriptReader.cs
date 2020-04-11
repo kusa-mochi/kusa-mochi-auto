@@ -13,6 +13,13 @@ namespace KusaMochiAutoLibrary.ScriptReaders
 
         public void ExecuteScript(string script)
         {
+            string formattedScript = FormatScript(script);
+        }
+
+        private string FormatScript(string script)
+        {
+            // TODO
+            return null;
         }
     }
 }
