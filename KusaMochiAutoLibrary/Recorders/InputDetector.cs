@@ -180,7 +180,7 @@ namespace KusaMochiAutoLibrary.Recorders
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
             KeyboardEventArgs args = new KeyboardEventArgs
             {
-                key = (Keys)param.scanCode
+                key = (Keys)param.vkCode
             };
 
             switch ((NativeMethods.KeyboardMessage)wParam)
