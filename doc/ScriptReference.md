@@ -36,6 +36,11 @@ Exec("c:\\MyBatchFiles\\test.bat", "MyOption")
 
 ## File Format
 
+|||
+|---|---|
+|Encode|UTF-8|
+|Line Feed Code|CR+LF|
+
 ## Methods
 
 ### MouseMoveTo(x,y)
