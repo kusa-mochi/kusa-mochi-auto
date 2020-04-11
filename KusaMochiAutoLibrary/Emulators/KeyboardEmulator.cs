@@ -10,12 +10,12 @@ namespace KusaMochiAutoLibrary.Emulators
 {
     public class KeyboardEmulator
     {
-        public bool KeyInput(Keys key)
+        public bool KeyPress(Keys key)
         {
-            return KeyInput((short)key);
+            return KeyPress((short)key);
         }
 
-        public bool KeyInput(short key)
+        public bool KeyPress(short key)
         {
             INPUT[] inputs = new INPUT[]
             {
