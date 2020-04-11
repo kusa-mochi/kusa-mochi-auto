@@ -72,3 +72,7 @@ Exec("c:\\MyBatchFiles\\test.bat", "MyOption")
 ### Wait(time)
 
 ### Exec(filePath, option1, option2, ...)
+
+## Operators
+
+You can use +,-,*,/ in scripts.
