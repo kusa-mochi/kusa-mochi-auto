@@ -79,6 +79,8 @@ You can use +,-,*,/ in scripts.
 
 ## Other Syntax
 
+### if
+
 ### for
 
 ### while
