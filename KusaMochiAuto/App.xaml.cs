@@ -18,5 +18,12 @@ namespace KusaMochiAuto
         {
 
         }
+
+        private void PrismApplication_Startup(object sender, StartupEventArgs e)
+        {
+            if (e.Args.Length == 0) return;
+
+
+        }
     }
 }
