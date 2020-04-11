@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
@@ -7,8 +8,8 @@ using Prism.Mvvm;
 
 using KusaMochiAutoLibrary.Recorders;
 using KusaMochiAutoLibrary.EventArgs;
-using System;
 using KusaMochiAutoLibrary.NativeFunctions;
+using KusaMochiAutoLibrary.ScriptReaders;
 
 namespace KusaMochiAuto.ViewModels
 {
@@ -41,6 +42,26 @@ namespace KusaMochiAuto.ViewModels
             get { return _CanStop; }
             set { SetProperty(ref _CanStop, value); }
         }
+
+        #endregion
+
+        #region OpenCommand
+
+        private DelegateCommand _OpenCommand;
+        public DelegateCommand OpenCommand =>
+            _OpenCommand ?? (_OpenCommand = new DelegateCommand(() =>
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                if (dialog.ShowDialog() == true)
+                {
+                    using (StreamReader reader = new StreamReader(dialog.FileName))
+                    {
+                        ScriptReader scriptReader = new ScriptReader();
+                        string script = reader.ReadToEnd();
+                        scriptReader.ExecuteScript(script);
+                    }
+                }
+            }));
 
         #endregion
 
