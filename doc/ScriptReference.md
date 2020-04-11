@@ -18,7 +18,7 @@ MouseMove(136,1079)
 MouseLeftDown(132,1079)
 MouseLeftUp(132,1079)
 Wait(1000)
-for i in 1..3
+for i in 0..2
   KeyDown(16)
   KeyPress(75 + i)
   KeyUp(16)
