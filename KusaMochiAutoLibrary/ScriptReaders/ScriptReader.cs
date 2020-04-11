@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using KusaMochiAutoLibrary.Emulators;
@@ -14,12 +15,12 @@ namespace KusaMochiAutoLibrary.ScriptReaders
         {
         }
 
-        public void ExecuteScript(string script)
+        public async Task<bool> ExecuteScript(string script)
         {
             string formattedScript = FormatScript(script);
             try
             {
-                CSharpScript.RunAsync(
+                var result = await CSharpScript.RunAsync(
                     formattedScript,
                     ScriptOptions.Default
                         .WithImports(
@@ -41,6 +42,8 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             {
                 Console.WriteLine(ex.Message);
             }
+
+            return true;
         }
 
         private string FormatScript(string script)

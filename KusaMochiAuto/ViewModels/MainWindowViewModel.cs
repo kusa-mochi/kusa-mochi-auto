@@ -49,7 +49,7 @@ namespace KusaMochiAuto.ViewModels
 
         private DelegateCommand _OpenCommand;
         public DelegateCommand OpenCommand =>
-            _OpenCommand ?? (_OpenCommand = new DelegateCommand(() =>
+            _OpenCommand ?? (_OpenCommand = new DelegateCommand(async () =>
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 if (dialog.ShowDialog() == true)
@@ -58,7 +58,7 @@ namespace KusaMochiAuto.ViewModels
                     {
                         ScriptReader scriptReader = new ScriptReader();
                         string script = reader.ReadToEnd();
-                        scriptReader.ExecuteScript(script);
+                        await scriptReader.ExecuteScript(script);
                     }
                 }
             }));
