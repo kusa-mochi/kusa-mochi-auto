@@ -101,7 +101,7 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseLeftButtonDown()
+        public bool MouseLeftDown()
         {
             Win32Point mousePosition = new Win32Point
             {
@@ -132,7 +132,7 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseLeftButtonUp()
+        public bool MouseLeftUp()
         {
             Win32Point mousePosition = new Win32Point
             {
@@ -149,6 +149,68 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_LEFTUP,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+
+            return true;
+        }
+
+        public bool MouseRightDown()
+        {
+            Win32Point mousePosition = new Win32Point
+            {
+                X = 0,
+                Y = 0
+            };
+            NativeMethods.GetCursorPos(ref mousePosition);
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.MOUSEEVENTF_RIGHTDOWN,
+                        dx = mousePosition.X,
+                        dy = mousePosition.Y,
+                        mouseData = 0,
+                        dwExtraInfo = IntPtr.Zero,
+                        time = 0
+                    }
+                }
+            };
+
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+
+            return true;
+        }
+
+        public bool MouseRightUp()
+        {
+            Win32Point mousePosition = new Win32Point
+            {
+                X = 0,
+                Y = 0
+            };
+            NativeMethods.GetCursorPos(ref mousePosition);
+
+            INPUT input = new INPUT
+            {
+                type = NativeMethods.INPUT_MOUSE,
+                ui = new INPUT_UNION
+                {
+                    mouse = new MOUSEINPUT
+                    {
+                        dwFlags = NativeMethods.MOUSEEVENTF_RIGHTUP,
                         dx = mousePosition.X,
                         dy = mousePosition.Y,
                         mouseData = 0,

@@ -74,7 +74,7 @@ namespace Practice.ViewModels
         private async Task<bool> Drag300010To300300Async()
         {
             _mouse.MouseMoveTo(300, 10);
-            _mouse.MouseLeftButtonDown();
+            _mouse.MouseLeftDown();
             await Task.Delay(_timeInterval);
 
             for (int posY = 10; posY < 300; posY += 10)
@@ -82,7 +82,7 @@ namespace Practice.ViewModels
                 _mouse.MouseMoveTo(300, posY);
                 await Task.Delay(_timeInterval);
             }
-            _mouse.MouseLeftButtonUp();
+            _mouse.MouseLeftUp();
 
             return true;
         }
@@ -144,18 +144,18 @@ namespace Practice.ViewModels
             _keyboard.KeyDown(Keys.K);
             _keyboard.KeyUp(Keys.K);
             _keyboard.KeyUp(Keys.ShiftKey);
-            _keyboard.KeyInput(Keys.U);
-            _keyboard.KeyInput(Keys.S);
-            _keyboard.KeyInput(Keys.A);
-            _keyboard.KeyInput(Keys.Space);
+            _keyboard.KeyPress(Keys.U);
+            _keyboard.KeyPress(Keys.S);
+            _keyboard.KeyPress(Keys.A);
+            _keyboard.KeyPress(Keys.Space);
             _keyboard.KeyDown(Keys.ShiftKey);
             _keyboard.KeyDown(Keys.M);
             _keyboard.KeyUp(Keys.M);
             _keyboard.KeyUp(Keys.ShiftKey);
-            _keyboard.KeyInput(Keys.O);
-            _keyboard.KeyInput(Keys.C);
-            _keyboard.KeyInput(Keys.H);
-            _keyboard.KeyInput(Keys.I);
+            _keyboard.KeyPress(Keys.O);
+            _keyboard.KeyPress(Keys.C);
+            _keyboard.KeyPress(Keys.H);
+            _keyboard.KeyPress(Keys.I);
 
             return true;
         }
@@ -174,7 +174,7 @@ namespace Practice.ViewModels
         {
             await Task.Delay(3000);
 
-            _keyboard.KeyInput(Keys.LWin);
+            _keyboard.KeyPress(Keys.LWin);
 
             return true;
         }
