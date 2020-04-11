@@ -20,7 +20,10 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             CSharpScript.RunAsync(
                 formattedScript,
                 ScriptOptions.Default
-                    .WithImports("System", "KusaMochiAutoLibrary.Emulators", "System.Threading")
+                    .WithImports(
+                        "System",
+                        "KusaMochiAutoLibrary.Emulators"
+                        )
                     .WithReferences(
                         Assembly.GetAssembly(typeof(MouseEmulator)),
                         Assembly.GetAssembly(typeof(KeyboardEmulator))
@@ -33,6 +36,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             string output = script;
             output = "MouseEmulator mouse = new MouseEmulator();" + output;
             output = "KeyboardEmulator keyboard = new KeyboardEmulator();" + output;
+            output = "TimeEmulator timeEmulator = new TimeEmulator();" + output;
 
             string[] mouseMethods = new string[]
             {
@@ -49,7 +53,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             };
             foreach (string methodName in mouseMethods)
             {
-                output = output.Replace(methodName + "(", "Thread.Sleep(100);mouse." + methodName + "(");
+                output = output.Replace(methodName + "(", "mouse." + methodName + "(");
             }
 
             string[] keyboardMethods = new string[]
@@ -60,7 +64,16 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             };
             foreach (string methodName in keyboardMethods)
             {
-                output = output.Replace(methodName + "(", "Thread.Sleep(100);keyboard." + methodName + "(");
+                output = output.Replace(methodName + "(", "keyboard." + methodName + "(");
+            }
+
+            string[] timeMethods = new string[]
+            {
+                "Wait"
+            };
+            foreach (string methodName in timeMethods)
+            {
+                output = output.Replace(methodName + "(", "timeEmulator." + methodName + "(");
             }
 
             return output;

@@ -18,7 +18,8 @@ namespace KusaMochiAutoLibrary.Recorders
         private static readonly NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
         private static IntPtr _keyboardHookId = IntPtr.Zero;
-        private static TimeIntervalCounter _timeCounter = new TimeIntervalCounter();
+        private static TimeIntervalCounter _allEventIntervalCounter = new TimeIntervalCounter();
+        private static TimeIntervalCounter _mouseMoveIntervalCounter = new TimeIntervalCounter();
         private static double _mouseMoveTimeInterval = 33.0;
         private static IScriptGenerator _scriptGenerator = null;
 
@@ -58,7 +59,8 @@ namespace KusaMochiAutoLibrary.Recorders
             _scriptGenerator = scriptGenerator;
             _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
             _keyboardHookId = SetHook(_keyboardProc, NativeMethods.HookType.WH_KEYBOARD_LL);
-            _timeCounter.Start();
+            _allEventIntervalCounter.Start();
+            _mouseMoveIntervalCounter.Start();
         }
 
         public static void Finish()
@@ -93,6 +95,10 @@ namespace KusaMochiAutoLibrary.Recorders
                 return NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
             }
 
+            double currentTimeCount = _allEventIntervalCounter.CurrentCount;
+            _scriptGenerator.Wait((int)currentTimeCount);
+            _allEventIntervalCounter.Restart();
+
             MSLLHOOKSTRUCT param = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
 
             Win32Point mousePosition = new Win32Point
@@ -115,12 +121,12 @@ namespace KusaMochiAutoLibrary.Recorders
                     MouseLeftUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEMOVE:
-                    if (_timeCounter.CurrentCount > _mouseMoveTimeInterval)
+                    if (_mouseMoveIntervalCounter.CurrentCount > _mouseMoveTimeInterval)
                     {
                         //_recordedScript += $"MouseMoveTo({mousePosition.X},{mousePosition.Y});\n";
                         _scriptGenerator.MouseMove(mousePosition.X, mousePosition.Y);
                         MouseMove?.Invoke(null, mousePosition);
-                        _timeCounter.Restart();
+                        _mouseMoveIntervalCounter.Restart();
                     }
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEWHEEL:
@@ -166,6 +172,10 @@ namespace KusaMochiAutoLibrary.Recorders
             {
                 return NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
             }
+
+            double currentTimeCount = _allEventIntervalCounter.CurrentCount;
+            _scriptGenerator.Wait((int)currentTimeCount);
+            _allEventIntervalCounter.Restart();
 
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
             KeyboardEventArgs args = new KeyboardEventArgs

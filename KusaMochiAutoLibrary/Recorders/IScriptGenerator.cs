@@ -21,6 +21,7 @@ namespace KusaMochiAutoLibrary.Recorders
         public void KeyUp(Keys key);
         public void SystemKeyDown(Keys key);
         public void SystemKeyUp(Keys key);
+        public void Wait(int t);
         public void Reset();
         public string GetScript();
     }
