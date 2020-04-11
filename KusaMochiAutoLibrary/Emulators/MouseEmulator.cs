@@ -15,6 +15,12 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseClick()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseClick(p.X, p.Y);
+        }
+
         public bool MouseClick(int x, int y)
         {
             MouseMoveTo(x, y);
@@ -51,6 +57,12 @@ namespace KusaMochiAutoLibrary.Emulators
             NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
 
             return true;
+        }
+
+        public bool MouseRightClick()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseRightClick(p.X, p.Y);
         }
 
         public bool MouseRightClick(int x, int y)
@@ -91,6 +103,12 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseLeftDown()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseLeftDown(p.X, p.Y);
+        }
+
         public bool MouseLeftDown(int x, int y)
         {
             MouseMoveTo(x, y);
@@ -115,6 +133,12 @@ namespace KusaMochiAutoLibrary.Emulators
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
+        }
+
+        public bool MouseLeftUp()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseLeftUp(p.X, p.Y);
         }
 
         public bool MouseLeftUp(int x, int y)
@@ -143,6 +167,12 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseRightDown()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseRightDown(p.X, p.Y);
+        }
+
         public bool MouseRightDown(int x, int y)
         {
             MouseMoveTo(x, y);
@@ -167,6 +197,12 @@ namespace KusaMochiAutoLibrary.Emulators
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
+        }
+
+        public bool MouseRightUp()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseRightUp(p.X, p.Y);
         }
 
         public bool MouseRightUp(int x, int y)
@@ -195,6 +231,12 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseWheel(int amount)
+        {
+            Win32Point p = GetMousePosition();
+            return MouseWheel(p.X, p.Y, amount);
+        }
+
         public bool MouseWheel(int x, int y, int amount)
         {
             MouseMoveTo(x, y);
@@ -219,6 +261,12 @@ namespace KusaMochiAutoLibrary.Emulators
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
+        }
+
+        public bool MouseMiddleDown()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseMiddleDown(p.X, p.Y);
         }
 
         public bool MouseMiddleDown(int x, int y)
@@ -247,6 +295,12 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseMiddleUp()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseMiddleUp(p.X, p.Y);
+        }
+
         public bool MouseMiddleUp(int x, int y)
         {
             MouseMoveTo(x, y);
@@ -271,6 +325,13 @@ namespace KusaMochiAutoLibrary.Emulators
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
 
             return true;
+        }
+
+        private Win32Point GetMousePosition()
+        {
+            Win32Point p = new Win32Point { X = 0, Y = 0 };
+            NativeMethods.GetCursorPos(ref p);
+            return p;
         }
     }
 }
