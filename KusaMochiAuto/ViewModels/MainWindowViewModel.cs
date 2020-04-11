@@ -73,20 +73,7 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = true;
-                    //_recordedSource = "";
                     InputDetector.Initialize();
-                    //InputDetector.MouseMove += OnMouseMove;
-                    //InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
-                    //InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
-                    //InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
-                    //InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
-                    //InputDetector.MouseWheel += OnMouseWheel;
-                    //InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
-                    //InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
-                    //InputDetector.KeyDown += OnKeyDown;
-                    //InputDetector.KeyUp += OnKeyUp;
-                    //InputDetector.SystemKeyDown += OnSystemKeyDown;
-                    //InputDetector.SystemKeyUp += OnSystemKeyUp;
                 }));
 
         #endregion
