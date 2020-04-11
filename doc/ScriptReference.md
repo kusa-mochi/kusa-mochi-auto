@@ -37,4 +37,4 @@ You can execute your script by 2 ways:
 
 ### KeyUp(keyCode)
 
-### Wait(timeOnMilliSeconds)
+### Wait(time)
