@@ -15,14 +15,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseClick()
+        public bool MouseClick(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT[] inputs = new INPUT[] {
                 new INPUT{
@@ -30,8 +25,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
                             dwFlags = NativeMethods.MOUSEEVENTF_LEFTDOWN,
-                            dx = mousePosition.X,
-                            dy = mousePosition.Y,
+                            dx = x,
+                            dy = y,
                             mouseData = 0,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
@@ -43,8 +38,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
                             dwFlags = NativeMethods.MOUSEEVENTF_LEFTUP,
-                            dx = mousePosition.X,
-                            dy = mousePosition.Y,
+                            dx = x,
+                            dy = y,
                             mouseData = 0,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
@@ -58,14 +53,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseRightClick()
+        public bool MouseRightClick(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT[] inputs = new INPUT[] {
                 new INPUT{
@@ -73,8 +63,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
                             dwFlags = NativeMethods.MOUSEEVENTF_RIGHTDOWN,
-                            dx = mousePosition.X,
-                            dy = mousePosition.Y,
+                            dx = x,
+                            dy = y,
                             mouseData = 0,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
@@ -86,8 +76,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     ui = new INPUT_UNION{
                         mouse = new MOUSEINPUT{
                             dwFlags = NativeMethods.MOUSEEVENTF_RIGHTUP,
-                            dx = mousePosition.X,
-                            dy = mousePosition.Y,
+                            dx = x,
+                            dy = y,
                             mouseData = 0,
                             dwExtraInfo = IntPtr.Zero,
                             time = 0
@@ -101,14 +91,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseLeftDown()
+        public bool MouseLeftDown(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -118,8 +103,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_LEFTDOWN,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -132,14 +117,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseLeftUp()
+        public bool MouseLeftUp(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -149,8 +129,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_LEFTUP,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -163,14 +143,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseRightDown()
+        public bool MouseRightDown(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -180,8 +155,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_RIGHTDOWN,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -194,14 +169,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseRightUp()
+        public bool MouseRightUp(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -211,8 +181,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_RIGHTUP,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -225,14 +195,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseWheel(int amount)
+        public bool MouseWheel(int x, int y, int amount)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -242,8 +207,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_WHEEL,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = amount,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -256,14 +221,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseMiddleDown()
+        public bool MouseMiddleDown(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -273,8 +233,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_MIDDLEDOWN,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
@@ -287,14 +247,9 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
-        public bool MouseMiddleUp()
+        public bool MouseMiddleUp(int x, int y)
         {
-            Win32Point mousePosition = new Win32Point
-            {
-                X = 0,
-                Y = 0
-            };
-            NativeMethods.GetCursorPos(ref mousePosition);
+            MouseMoveTo(x, y);
 
             INPUT input = new INPUT
             {
@@ -304,8 +259,8 @@ namespace KusaMochiAutoLibrary.Emulators
                     mouse = new MOUSEINPUT
                     {
                         dwFlags = NativeMethods.MOUSEEVENTF_MIDDLEUP,
-                        dx = mousePosition.X,
-                        dy = mousePosition.Y,
+                        dx = x,
+                        dy = y,
                         mouseData = 0,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
