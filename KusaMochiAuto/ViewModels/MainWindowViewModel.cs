@@ -89,6 +89,9 @@ namespace KusaMochiAuto.ViewModels
                     string recordedScript = InputDetector.RecordedScript;
                     InputDetector.Finish();
                     SaveFileDialog dialog = new SaveFileDialog();
+                    dialog.DefaultExt = "auto";
+                    dialog.AddExtension = true;
+                    dialog.Filter = "AUTOファイル(*.auto) | *.auto";
                     if (dialog.ShowDialog() == true)
                     {
                         using (StreamWriter writer = new StreamWriter(dialog.FileName))
