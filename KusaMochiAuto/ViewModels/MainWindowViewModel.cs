@@ -73,20 +73,20 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = true;
-                    _recordedSource = "";
+                    //_recordedSource = "";
                     InputDetector.Initialize();
-                    InputDetector.MouseMove += OnMouseMove;
-                    InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
-                    InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
-                    InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
-                    InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
-                    InputDetector.MouseWheel += OnMouseWheel;
-                    InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
-                    InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
-                    InputDetector.KeyDown += OnKeyDown;
-                    InputDetector.KeyUp += OnKeyUp;
-                    InputDetector.SystemKeyDown += OnSystemKeyDown;
-                    InputDetector.SystemKeyUp += OnSystemKeyUp;
+                    //InputDetector.MouseMove += OnMouseMove;
+                    //InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
+                    //InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
+                    //InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
+                    //InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
+                    //InputDetector.MouseWheel += OnMouseWheel;
+                    //InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
+                    //InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
+                    //InputDetector.KeyDown += OnKeyDown;
+                    //InputDetector.KeyUp += OnKeyUp;
+                    //InputDetector.SystemKeyDown += OnSystemKeyDown;
+                    //InputDetector.SystemKeyUp += OnSystemKeyUp;
                 }));
 
         #endregion
@@ -99,13 +99,14 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = false;
+                    string recordedScript = InputDetector.RecordedScript;
                     InputDetector.Finish();
                     SaveFileDialog dialog = new SaveFileDialog();
                     if (dialog.ShowDialog() == true)
                     {
                         using (StreamWriter writer = new StreamWriter(dialog.FileName))
                         {
-                            writer.Write(_recordedSource);
+                            writer.Write(recordedScript);
                         }
 
                     }
@@ -115,66 +116,6 @@ namespace KusaMochiAuto.ViewModels
 
         #region Event Handlers
 
-        private void OnMouseMove(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseMove({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseLeftButtonDown(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseLeftDown({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseLeftButtonUp(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseLeftUp({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseRightButtonDown(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseRightDown({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseRightButtonUp(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseRightUp({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            _recordedSource += $"MouseWheel({e.Position.X},{e.Position.Y},{e.AmountOfMovement / 120});\n";
-        }
-
-        private void OnMouseMiddleButtonDown(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseMiddleDown({e.X},{e.Y});\n";
-        }
-
-        private void OnMouseMiddleButtonUp(object sender, Win32Point e)
-        {
-            _recordedSource += $"MouseMiddleUp({e.X},{e.Y});\n";
-        }
-
-        private void OnKeyDown(object sender, KeyboardEventArgs e)
-        {
-            _recordedSource += $"KeyDown({(int)e.key});\n";
-        }
-
-        private void OnKeyUp(object sender, KeyboardEventArgs e)
-        {
-            _recordedSource += $"KeyUp({(int)e.key});\n";
-        }
-
-        private void OnSystemKeyDown(object sender, KeyboardEventArgs e)
-        {
-            _recordedSource += $"SystemKeyDown({(int)e.key});\n";
-        }
-
-        private void OnSystemKeyUp(object sender, KeyboardEventArgs e)
-        {
-            _recordedSource += $"SystemKeyUp({(int)e.key});\n";
-        }
-
         #endregion
 
         #region Private Methods
@@ -182,8 +123,6 @@ namespace KusaMochiAuto.ViewModels
         #endregion
 
         #region Fields
-
-        private string _recordedSource = "";
 
         #endregion
 
