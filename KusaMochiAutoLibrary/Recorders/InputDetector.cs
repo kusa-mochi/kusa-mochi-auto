@@ -12,23 +12,41 @@ namespace KusaMochiAutoLibrary.Recorders
 {
     public static class InputDetector
     {
+        #region Fields
+
         private static readonly NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
         private static readonly NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
         private static IntPtr _keyboardHookId = IntPtr.Zero;
-        private static TimeIntervalCounter _timeCounter = new TimeIntervalCounter();
+        private static TimeIntervalCounter _allEventIntervalCounter = new TimeIntervalCounter();
+        private static TimeIntervalCounter _mouseMoveIntervalCounter = new TimeIntervalCounter();
         private static double _mouseMoveTimeInterval = 33.0;
+        private static IScriptGenerator _scriptGenerator = null;
+
+        #endregion
+
+        #region Properties
+
+        public static string RecordedScript
+        {
+            get
+            {
+                return _scriptGenerator.GetScript();
+            }
+        }
+
+        #endregion
 
         #region Events
 
         public static event EventHandler<Win32Point> MouseMove;
-        public static event EventHandler<Win32Point> MouseLeftButtonDown;
-        public static event EventHandler<Win32Point> MouseRightButtonDown;
-        public static event EventHandler<Win32Point> MouseLeftButtonUp;
-        public static event EventHandler<Win32Point> MouseRightButtonUp;
+        public static event EventHandler<Win32Point> MouseLeftDown;
+        public static event EventHandler<Win32Point> MouseRightDown;
+        public static event EventHandler<Win32Point> MouseLeftUp;
+        public static event EventHandler<Win32Point> MouseRightUp;
         public static event EventHandler<MouseWheelEventArgs> MouseWheel;
-        public static event EventHandler<Win32Point> MouseMiddleButtonDown;
-        public static event EventHandler<Win32Point> MouseMiddleButtonUp;
+        public static event EventHandler<Win32Point> MouseMiddleDown;
+        public static event EventHandler<Win32Point> MouseMiddleUp;
         public static event EventHandler<KeyboardEventArgs> KeyDown;
         public static event EventHandler<KeyboardEventArgs> KeyUp;
         public static event EventHandler<KeyboardEventArgs> SystemKeyDown;
@@ -36,11 +54,13 @@ namespace KusaMochiAutoLibrary.Recorders
 
         #endregion
 
-        public static void Initialize()
+        public static void Initialize(IScriptGenerator scriptGenerator)
         {
+            _scriptGenerator = scriptGenerator;
             _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
             _keyboardHookId = SetHook(_keyboardProc, NativeMethods.HookType.WH_KEYBOARD_LL);
-            _timeCounter.Start();
+            _allEventIntervalCounter.Start();
+            _mouseMoveIntervalCounter.Start();
         }
 
         public static void Finish()
@@ -75,6 +95,10 @@ namespace KusaMochiAutoLibrary.Recorders
                 return NativeMethods.CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
             }
 
+            double currentTimeCount = _allEventIntervalCounter.CurrentCount;
+            _scriptGenerator.Wait((int)currentTimeCount);
+            _allEventIntervalCounter.Restart();
+
             MSLLHOOKSTRUCT param = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
 
             Win32Point mousePosition = new Win32Point
@@ -87,36 +111,45 @@ namespace KusaMochiAutoLibrary.Recorders
             switch ((NativeMethods.MouseMessage)wParam)
             {
                 case NativeMethods.MouseMessage.WM_LBUTTONDOWN:
-                    MouseLeftButtonDown?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseLeftDown(mousePosition.X, mousePosition.Y);
+                    MouseLeftDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_LBUTTONUP:
-                    MouseLeftButtonUp?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseLeftUp(mousePosition.X, mousePosition.Y);
+                    MouseLeftUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEMOVE:
-                    if (_timeCounter.CurrentCount > _mouseMoveTimeInterval)
+                    if (_mouseMoveIntervalCounter.CurrentCount > _mouseMoveTimeInterval)
                     {
+                        _scriptGenerator.MouseMove(mousePosition.X, mousePosition.Y);
                         MouseMove?.Invoke(null, mousePosition);
-                        _timeCounter.Restart();
+                        _mouseMoveIntervalCounter.Restart();
                     }
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEWHEEL:
+                    int wheelAmount = (param.mouseData >> 16) / 120;
+                    _scriptGenerator.MouseWheel(mousePosition.X, mousePosition.Y, wheelAmount);
                     MouseWheel?.Invoke(null, new MouseWheelEventArgs
                     {
                         Position = mousePosition,
-                        AmountOfMovement = param.mouseData >> 16
+                        AmountOfMovement = wheelAmount
                     });
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONDOWN:
-                    MouseRightButtonDown?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseRightDown(mousePosition.X, mousePosition.Y);
+                    MouseRightDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONUP:
-                    MouseRightButtonUp?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseRightUp(mousePosition.X, mousePosition.Y);
+                    MouseRightUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONDOWN:
-                    MouseMiddleButtonDown?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseMiddleDown(mousePosition.X, mousePosition.Y);
+                    MouseMiddleDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONUP:
-                    MouseMiddleButtonUp?.Invoke(null, mousePosition);
+                    _scriptGenerator.MouseMiddleUp(mousePosition.X, mousePosition.Y);
+                    MouseMiddleUp?.Invoke(null, mousePosition);
                     break;
                 default:
                     break;
@@ -132,24 +165,32 @@ namespace KusaMochiAutoLibrary.Recorders
                 return NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
             }
 
+            double currentTimeCount = _allEventIntervalCounter.CurrentCount;
+            _scriptGenerator.Wait((int)currentTimeCount);
+            _allEventIntervalCounter.Restart();
+
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
             KeyboardEventArgs args = new KeyboardEventArgs
             {
-                key = (Keys)param.scanCode
+                key = (Keys)param.vkCode
             };
 
             switch ((NativeMethods.KeyboardMessage)wParam)
             {
                 case NativeMethods.KeyboardMessage.WM_KEYDOWN:
+                    _scriptGenerator.KeyDown(args.key);
                     KeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_KEYUP:
+                    _scriptGenerator.KeyUp(args.key);
                     KeyUp?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYDOWN:
+                    _scriptGenerator.SystemKeyDown(args.key);
                     SystemKeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYUP:
+                    _scriptGenerator.SystemKeyUp(args.key);
                     SystemKeyUp?.Invoke(null, args);
                     break;
                 default:

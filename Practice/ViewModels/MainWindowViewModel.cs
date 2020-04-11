@@ -199,15 +199,15 @@ namespace Practice.ViewModels
 
         public MainWindowViewModel()
         {
-            InputDetector.Initialize();
+            InputDetector.Initialize(new CSharpScriptGenerator());
             InputDetector.MouseMove += OnMouseMove;
-            InputDetector.MouseLeftButtonDown += OnMouseLeftButtonDown;
-            InputDetector.MouseLeftButtonUp += OnMouseLeftButtonUp;
-            InputDetector.MouseRightButtonDown += OnMouseRightButtonDown;
-            InputDetector.MouseRightButtonUp += OnMouseRightButtonUp;
+            InputDetector.MouseLeftDown += OnMouseLeftButtonDown;
+            InputDetector.MouseLeftUp += OnMouseLeftButtonUp;
+            InputDetector.MouseRightDown += OnMouseRightButtonDown;
+            InputDetector.MouseRightUp += OnMouseRightButtonUp;
             InputDetector.MouseWheel += OnMouseWheel;
-            InputDetector.MouseMiddleButtonDown += OnMouseMiddleButtonDown;
-            InputDetector.MouseMiddleButtonUp += OnMouseMiddleButtonUp;
+            InputDetector.MouseMiddleDown += OnMouseMiddleButtonDown;
+            InputDetector.MouseMiddleUp += OnMouseMiddleButtonUp;
             InputDetector.KeyDown += OnKeyDown;
             InputDetector.KeyUp += OnKeyUp;
             InputDetector.SystemKeyDown += OnSystemKeyDown;
