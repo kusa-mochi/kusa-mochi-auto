@@ -105,7 +105,6 @@ namespace KusaMochiAuto.ViewModels
                     {
                         using (StreamWriter writer = new StreamWriter(dialog.FileName))
                         {
-                            System.Windows.MessageBox.Show(_recordedSource);
                             writer.Write(_recordedSource);
                         }
 
