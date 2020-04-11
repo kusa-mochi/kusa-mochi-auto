@@ -38,3 +38,5 @@ You can execute your script by 2 ways:
 ### KeyUp(keyCode)
 
 ### Wait(time)
+
+### Exec(filePath, option1, option2, ...)
