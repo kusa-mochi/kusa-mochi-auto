@@ -15,7 +15,7 @@ namespace KusaMochiAuto.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        #region 変更通知プロパティ
+        #region Change Notification Properties
 
         private bool _IsRecording = false;
         public bool IsRecording
