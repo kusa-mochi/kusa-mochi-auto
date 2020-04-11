@@ -251,7 +251,7 @@ namespace KusaMochiAutoLibrary.Emulators
                         dwFlags = NativeMethods.MOUSEEVENTF_WHEEL,
                         dx = x,
                         dy = y,
-                        mouseData = amount,
+                        mouseData = amount * 120,
                         dwExtraInfo = IntPtr.Zero,
                         time = 0
                     }

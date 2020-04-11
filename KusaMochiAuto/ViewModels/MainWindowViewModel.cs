@@ -73,7 +73,7 @@ namespace KusaMochiAuto.ViewModels
                 () =>
                 {
                     IsRecording = true;
-                    InputDetector.Initialize();
+                    InputDetector.Initialize(new CSharpScriptGenerator());
                 }));
 
         #endregion

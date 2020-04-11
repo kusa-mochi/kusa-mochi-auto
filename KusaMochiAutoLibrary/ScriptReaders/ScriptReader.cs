@@ -20,7 +20,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             CSharpScript.RunAsync(
                 formattedScript,
                 ScriptOptions.Default
-                    .WithImports("System", "KusaMochiAutoLibrary.Emulators")
+                    .WithImports("System", "KusaMochiAutoLibrary.Emulators", "System.Threading")
                     .WithReferences(
                         Assembly.GetAssembly(typeof(MouseEmulator)),
                         Assembly.GetAssembly(typeof(KeyboardEmulator))
@@ -49,7 +49,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             };
             foreach (string methodName in mouseMethods)
             {
-                output = output.Replace(methodName + "(", "mouse." + methodName + "(");
+                output = output.Replace(methodName + "(", "Thread.Sleep(100);mouse." + methodName + "(");
             }
 
             string[] keyboardMethods = new string[]
@@ -60,7 +60,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             };
             foreach (string methodName in keyboardMethods)
             {
-                output = output.Replace(methodName + "(", "keyboard." + methodName + "(");
+                output = output.Replace(methodName + "(", "Thread.Sleep(100);keyboard." + methodName + "(");
             }
 
             return output;

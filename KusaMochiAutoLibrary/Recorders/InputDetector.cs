@@ -20,7 +20,7 @@ namespace KusaMochiAutoLibrary.Recorders
         private static IntPtr _keyboardHookId = IntPtr.Zero;
         private static TimeIntervalCounter _timeCounter = new TimeIntervalCounter();
         private static double _mouseMoveTimeInterval = 33.0;
-        private static string _recordedScript = "";
+        private static IScriptGenerator _scriptGenerator = null;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace KusaMochiAutoLibrary.Recorders
         {
             get
             {
-                return _recordedScript;
+                return _scriptGenerator.GetScript();
             }
         }
 
@@ -39,13 +39,13 @@ namespace KusaMochiAutoLibrary.Recorders
         #region Events
 
         public static event EventHandler<Win32Point> MouseMove;
-        public static event EventHandler<Win32Point> MouseLeftButtonDown;
-        public static event EventHandler<Win32Point> MouseRightButtonDown;
-        public static event EventHandler<Win32Point> MouseLeftButtonUp;
-        public static event EventHandler<Win32Point> MouseRightButtonUp;
+        public static event EventHandler<Win32Point> MouseLeftDown;
+        public static event EventHandler<Win32Point> MouseRightDown;
+        public static event EventHandler<Win32Point> MouseLeftUp;
+        public static event EventHandler<Win32Point> MouseRightUp;
         public static event EventHandler<MouseWheelEventArgs> MouseWheel;
-        public static event EventHandler<Win32Point> MouseMiddleButtonDown;
-        public static event EventHandler<Win32Point> MouseMiddleButtonUp;
+        public static event EventHandler<Win32Point> MouseMiddleDown;
+        public static event EventHandler<Win32Point> MouseMiddleUp;
         public static event EventHandler<KeyboardEventArgs> KeyDown;
         public static event EventHandler<KeyboardEventArgs> KeyUp;
         public static event EventHandler<KeyboardEventArgs> SystemKeyDown;
@@ -53,9 +53,9 @@ namespace KusaMochiAutoLibrary.Recorders
 
         #endregion
 
-        public static void Initialize()
+        public static void Initialize(IScriptGenerator scriptGenerator)
         {
-            _recordedScript = "";
+            _scriptGenerator = scriptGenerator;
             _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
             _keyboardHookId = SetHook(_keyboardProc, NativeMethods.HookType.WH_KEYBOARD_LL);
             _timeCounter.Start();
@@ -105,24 +105,28 @@ namespace KusaMochiAutoLibrary.Recorders
             switch ((NativeMethods.MouseMessage)wParam)
             {
                 case NativeMethods.MouseMessage.WM_LBUTTONDOWN:
-                    _recordedScript += $"MouseLeftDown({mousePosition.X},{mousePosition.Y});\n";
-                    MouseLeftButtonDown?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseLeftDown({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseLeftDown(mousePosition.X, mousePosition.Y);
+                    MouseLeftDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_LBUTTONUP:
-                    _recordedScript += $"MouseLeftUp({mousePosition.X},{mousePosition.Y});\n";
-                    MouseLeftButtonUp?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseLeftUp({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseLeftUp(mousePosition.X, mousePosition.Y);
+                    MouseLeftUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEMOVE:
                     if (_timeCounter.CurrentCount > _mouseMoveTimeInterval)
                     {
-                        _recordedScript += $"MouseMoveTo({mousePosition.X},{mousePosition.Y});\n";
+                        //_recordedScript += $"MouseMoveTo({mousePosition.X},{mousePosition.Y});\n";
+                        _scriptGenerator.MouseMove(mousePosition.X, mousePosition.Y);
                         MouseMove?.Invoke(null, mousePosition);
                         _timeCounter.Restart();
                     }
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEWHEEL:
                     int wheelAmount = (param.mouseData >> 16) / 120;
-                    _recordedScript += $"MouseWheel({mousePosition.X},{mousePosition.Y},{wheelAmount});\n";
+                    //_recordedScript += $"MouseWheel({mousePosition.X},{mousePosition.Y},{wheelAmount});\n";
+                    _scriptGenerator.MouseWheel(mousePosition.X, mousePosition.Y, wheelAmount);
                     MouseWheel?.Invoke(null, new MouseWheelEventArgs
                     {
                         Position = mousePosition,
@@ -130,20 +134,24 @@ namespace KusaMochiAutoLibrary.Recorders
                     });
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONDOWN:
-                    _recordedScript += $"MouseRightDown({mousePosition.X},{mousePosition.Y});\n";
-                    MouseRightButtonDown?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseRightDown({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseRightDown(mousePosition.X, mousePosition.Y);
+                    MouseRightDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONUP:
-                    _recordedScript += $"MouseRightUp({mousePosition.X},{mousePosition.Y});\n";
-                    MouseRightButtonUp?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseRightUp({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseRightUp(mousePosition.X, mousePosition.Y);
+                    MouseRightUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONDOWN:
-                    _recordedScript += $"MouseMiddleDown({mousePosition.X},{mousePosition.Y});\n";
-                    MouseMiddleButtonDown?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseMiddleDown({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseMiddleDown(mousePosition.X, mousePosition.Y);
+                    MouseMiddleDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONUP:
-                    _recordedScript += $"MouseMiddleDown({mousePosition.X},{mousePosition.Y});\n";
-                    MouseMiddleButtonUp?.Invoke(null, mousePosition);
+                    //_recordedScript += $"MouseMiddleDown({mousePosition.X},{mousePosition.Y});\n";
+                    _scriptGenerator.MouseMiddleUp(mousePosition.X, mousePosition.Y);
+                    MouseMiddleUp?.Invoke(null, mousePosition);
                     break;
                 default:
                     break;
@@ -168,19 +176,23 @@ namespace KusaMochiAutoLibrary.Recorders
             switch ((NativeMethods.KeyboardMessage)wParam)
             {
                 case NativeMethods.KeyboardMessage.WM_KEYDOWN:
-                    _recordedScript += $"KeyDown({(int)args.key});\n";
+                    //_recordedScript += $"KeyDown({(int)args.key});\n";
+                    _scriptGenerator.KeyDown(args.key);
                     KeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_KEYUP:
-                    _recordedScript += $"KeyUp({(int)args.key});\n";
+                    //_recordedScript += $"KeyUp({(int)args.key});\n";
+                    _scriptGenerator.KeyUp(args.key);
                     KeyUp?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYDOWN:
-                    _recordedScript += $"SystemKeyDown({(int)args.key});\n";
+                    //_recordedScript += $"SystemKeyDown({(int)args.key});\n";
+                    _scriptGenerator.SystemKeyDown(args.key);
                     SystemKeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYUP:
-                    _recordedScript += $"SystemKeyUp({(int)args.key});\n";
+                    //_recordedScript += $"SystemKeyUp({(int)args.key});\n";
+                    _scriptGenerator.SystemKeyUp(args.key);
                     SystemKeyUp?.Invoke(null, args);
                     break;
                 default:
