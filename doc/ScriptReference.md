@@ -13,23 +13,50 @@ You can execute your script by 2 ways:
 
 ## Sample
 
+```
+MouseMove(136,1079)
+MouseLeftDown(132,1079)
+MouseLeftUp(132,1079)
+Wait(1000)
+for i in 1..3
+  KeyDown(16)
+  KeyPress(75 + i)
+  KeyUp(16)
+MouseMove(867,426)
+MouseWheel(869,434,-1)
+MouseWheel(869,434,-1)
+MouseWheel(869,434,-1)
+MouseWheel(869,434,1)
+MouseWheel(869,434,1)
+MouseMove(522,1052)
+MouseLeftDown(522,1053)
+MouseLeftUp(522,1053)
+Exec("c:\\MyBatchFiles\\test.bat", "MyOption")
+```
+
 ## File Format
 
 ## Methods
 
 ### MouseMoveTo(x,y)
 
-### MouseClick()
+### MouseClick(x,y)
 
-### MouseRightClick()
+### MouseRightClick(x,y)
 
-### MouseLeftButtonDown()
+### MouseLeftBDown(x,y)
 
-### MouseLeftButtonUp()
+### MouseLeftUp(x,y)
 
-### MouseRightButtonDown()
+### MouseRightDown(x,y)
 
-### MouseRightButtonUp()
+### MouseRightUp(x,y)
+
+### MouseMiddleDown(x,y)
+
+### MouseMiddleUp(x,y)
+
+### MouseWheel(wheelCount)
 
 ### KeyPress(keyCode)
 
