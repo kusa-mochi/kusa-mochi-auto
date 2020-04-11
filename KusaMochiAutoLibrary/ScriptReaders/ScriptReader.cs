@@ -17,18 +17,30 @@ namespace KusaMochiAutoLibrary.ScriptReaders
         public void ExecuteScript(string script)
         {
             string formattedScript = FormatScript(script);
-            CSharpScript.RunAsync(
-                formattedScript,
-                ScriptOptions.Default
-                    .WithImports(
-                        "System",
-                        "KusaMochiAutoLibrary.Emulators"
-                        )
-                    .WithReferences(
-                        Assembly.GetAssembly(typeof(MouseEmulator)),
-                        Assembly.GetAssembly(typeof(KeyboardEmulator))
-                        )
-                );
+            try
+            {
+                CSharpScript.RunAsync(
+                    formattedScript,
+                    ScriptOptions.Default
+                        .WithImports(
+                            "System",
+                            "KusaMochiAutoLibrary.Emulators"
+                            )
+                        .WithReferences(
+                            Assembly.GetAssembly(typeof(MouseEmulator)),
+                            Assembly.GetAssembly(typeof(KeyboardEmulator))
+                            )
+                    );
+            }
+            catch (CompilationErrorException ex)
+            {
+                Console.WriteLine("[Script error]");
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private string FormatScript(string script)
