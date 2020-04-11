@@ -76,3 +76,9 @@ Exec("c:\\MyBatchFiles\\test.bat", "MyOption")
 ## Operators
 
 You can use +,-,*,/ in scripts.
+
+## Other Syntax
+
+### for
+
+### while
