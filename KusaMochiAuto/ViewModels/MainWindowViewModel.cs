@@ -118,62 +118,62 @@ namespace KusaMochiAuto.ViewModels
 
         private void OnMouseMove(object sender, Win32Point e)
         {
-            _recordedSource += "MouseMove(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseMove({e.X},{e.Y});\n";
         }
 
         private void OnMouseLeftButtonDown(object sender, Win32Point e)
         {
-            _recordedSource += "MouseLDown(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseLeftDown({e.X},{e.Y});\n";
         }
 
         private void OnMouseLeftButtonUp(object sender, Win32Point e)
         {
-            _recordedSource += "MouseLUp(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseLeftUp({e.X},{e.Y});\n";
         }
 
         private void OnMouseRightButtonDown(object sender, Win32Point e)
         {
-            _recordedSource += "MouseRDown(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseRightDown({e.X},{e.Y});\n";
         }
 
         private void OnMouseRightButtonUp(object sender, Win32Point e)
         {
-            _recordedSource += "MouseRUp(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseRightUp({e.X},{e.Y});\n";
         }
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            _recordedSource += "MouseWheel(" + e.Position.X + "," + e.Position.Y + "," + e.AmountOfMovement + ")\n";
+            _recordedSource += $"MouseWheel({e.Position.X},{e.Position.Y},{e.AmountOfMovement / 120});\n";
         }
 
         private void OnMouseMiddleButtonDown(object sender, Win32Point e)
         {
-            _recordedSource += "MouseMDown(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseMiddleDown({e.X},{e.Y});\n";
         }
 
         private void OnMouseMiddleButtonUp(object sender, Win32Point e)
         {
-            _recordedSource += "MouseMUp(" + e.X + "," + e.Y + ")\n";
+            _recordedSource += $"MouseMiddleUp({e.X},{e.Y});\n";
         }
 
         private void OnKeyDown(object sender, KeyboardEventArgs e)
         {
-            _recordedSource += "KeyDown(" + (int)e.key + ")\n";
+            _recordedSource += $"KeyDown({(int)e.key});\n";
         }
 
         private void OnKeyUp(object sender, KeyboardEventArgs e)
         {
-            _recordedSource += "KeyUp(" + (int)e.key + ")\n";
+            _recordedSource += $"KeyUp({(int)e.key});\n";
         }
 
         private void OnSystemKeyDown(object sender, KeyboardEventArgs e)
         {
-            _recordedSource += "SystemKeyDown(" + (int)e.key + ")\n";
+            _recordedSource += $"SystemKeyDown({(int)e.key});\n";
         }
 
         private void OnSystemKeyUp(object sender, KeyboardEventArgs e)
         {
-            _recordedSource += "SystemKeyUp(" + (int)e.key + ")\n";
+            _recordedSource += $"SystemKeyUp({(int)e.key});\n";
         }
 
         #endregion
