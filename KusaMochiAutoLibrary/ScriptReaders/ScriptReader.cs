@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using KusaMochiAutoLibrary.Emulators;
+using KusaMochiAutoLibrary.ImageRecognition;
 
 namespace KusaMochiAutoLibrary.ScriptReaders
 {
@@ -25,11 +26,15 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                     ScriptOptions.Default
                         .WithImports(
                             "System",
-                            "KusaMochiAutoLibrary.Emulators"
+                            "System.Windows",
+                            "KusaMochiAutoLibrary.Emulators",
+                            "KusaMochiAutoLibrary.ImageRecognition"
                             )
                         .WithReferences(
                             Assembly.GetAssembly(typeof(MouseEmulator)),
-                            Assembly.GetAssembly(typeof(KeyboardEmulator))
+                            Assembly.GetAssembly(typeof(KeyboardEmulator)),
+                            Assembly.GetAssembly(typeof(TimeEmulator)),
+                            Assembly.GetAssembly(typeof(ImageRecognizer))
                             )
                     );
             }
@@ -52,6 +57,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             output = "MouseEmulator mouse = new MouseEmulator();" + output;
             output = "KeyboardEmulator keyboard = new KeyboardEmulator();" + output;
             output = "TimeEmulator timeEmulator = new TimeEmulator();" + output;
+            output = "ImageRecognizer imageRecognizer = new ImageRecognizer();" + output;
 
             string[] mouseMethods = new string[]
             {
@@ -89,6 +95,15 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             foreach (string methodName in timeMethods)
             {
                 output = output.Replace(methodName + "(", "timeEmulator." + methodName + "(");
+            }
+
+            string[] recognizeMethods = new string[]
+            {
+                "IsImageFound"
+            };
+            foreach (string methodName in recognizeMethods)
+            {
+                output = output.Replace(methodName + "(", "imageRecognizer." + methodName + "(");
             }
 
             return output;

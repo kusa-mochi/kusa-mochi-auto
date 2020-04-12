@@ -16,6 +16,7 @@
     <NeutralLanguage></NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="DupImageLib" Version="1.1.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.5.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="3.5.0" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
