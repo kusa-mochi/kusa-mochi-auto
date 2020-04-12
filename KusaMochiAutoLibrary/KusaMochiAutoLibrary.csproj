@@ -3,10 +3,27 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>KusaMochiAutoLibrary</AssemblyName>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.8.0-alpha</Version>
+    <Authors>Kusa Mochi</Authors>
+    <Company>Mochi</Company>
+    <Product>KusaMochiAuto</Product>
+    <Copyright>Kusa Mochi</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/kusa-mochi/kusa-mochi-auto</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kusa-mochi/kusa-mochi-auto.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <NeutralLanguage></NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.5.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="3.5.0" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
