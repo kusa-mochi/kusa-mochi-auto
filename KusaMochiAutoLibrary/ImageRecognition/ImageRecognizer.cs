@@ -17,7 +17,7 @@ namespace KusaMochiAutoLibrary.ImageRecognition
     {
         #region Public Methods
 
-        public bool IsImageFound(string imageFilePath, int recognitionThreshold = 10)
+        public bool IsImageFound(string imageFilePath, int recognitionThreshold = 15)
         {
             using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
 
