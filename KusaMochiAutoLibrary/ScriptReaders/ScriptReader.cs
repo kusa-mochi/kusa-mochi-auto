@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using OpenCvSharp;
 using KusaMochiAutoLibrary.Emulators;
 using KusaMochiAutoLibrary.ImageRecognition;
 
@@ -27,10 +28,12 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                         .WithImports(
                             "System",
                             "System.Windows",
+                            "OpenCvSharp",
                             "KusaMochiAutoLibrary.Emulators",
                             "KusaMochiAutoLibrary.ImageRecognition"
                             )
                         .WithReferences(
+                            Assembly.GetAssembly(typeof(Point2d)),
                             Assembly.GetAssembly(typeof(MouseEmulator)),
                             Assembly.GetAssembly(typeof(KeyboardEmulator)),
                             Assembly.GetAssembly(typeof(TimeEmulator)),
@@ -99,7 +102,8 @@ namespace KusaMochiAutoLibrary.ScriptReaders
 
             string[] recognizeMethods = new string[]
             {
-                "IsImageFound"
+                "IsImageFound",
+                "GetImagePosition"
             };
             foreach (string methodName in recognizeMethods)
             {

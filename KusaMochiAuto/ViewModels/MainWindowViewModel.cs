@@ -53,7 +53,7 @@ namespace KusaMochiAuto.ViewModels
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.DefaultExt = ".auto";
-                dialog.Filter = "AUTO files|*.auto|All files|*.*";
+                dialog.Filter = "AUTO files|*.auto|C# source files|*.cs|All files|*.*";
                 if (dialog.ShowDialog() == true)
                 {
                     using (StreamReader reader = new StreamReader(dialog.FileName))
@@ -93,7 +93,7 @@ namespace KusaMochiAuto.ViewModels
                     SaveFileDialog dialog = new SaveFileDialog();
                     dialog.DefaultExt = ".auto";
                     dialog.AddExtension = true;
-                    dialog.Filter = "AUTO files|*.auto|All files|*.*";
+                    dialog.Filter = "AUTO files|*.auto|C# source files|*.cs|All files|*.*";
                     if (dialog.ShowDialog() == true)
                     {
                         using (StreamWriter writer = new StreamWriter(dialog.FileName))
