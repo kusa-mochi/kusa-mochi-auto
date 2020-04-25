@@ -18,123 +18,35 @@ namespace KusaMochiAutoLibrary.ImageRecognition
     {
         #region Public Methods
 
-        public bool IsImageFound(string imageFilePath, int recognitionThreshold = -1)
-        {
-            int th = recognitionThreshold == -1 ? _recognitionThreshold : recognitionThreshold;
-
-            using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
-
-            Bitmap screenBitmap = GetScreenCapture(System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            using var targetImage = BitmapConverter.ToMat(screenBitmap);
-
-            using var orb = ORB.Create(1000);
-            using var descriptors1 = new Mat();
-            using var descriptors2 = new Mat();
-            orb.DetectAndCompute(queryImage, null, out var keyPoints1, descriptors1);
-            orb.DetectAndCompute(targetImage, null, out var keyPoints2, descriptors2);
-
-            using var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
-            var matches = bf.Match(descriptors1, descriptors2);
-
-            //var goodMatches = matches
-            //    .Where(x => x.Distance <= th)
-            //    .OrderBy(x => x.Distance)
-            //    .Take(1024)
-            //    .ToArray();
-
-            var goodMatches = matches
-                .Where(x => x.Distance <= th)
-                .ToArray();
-
-            return goodMatches.Length > 0;
-
-            //if (goodMatches.Length == 0)
-            //{
-            //    return false;
-            //}
-
-            //var srcPts = goodMatches.Select(m => keyPoints1[m.QueryIdx].Pt).Select(p => new Point2d(p.X, p.Y));
-            //var dstPts = goodMatches.Select(m => keyPoints2[m.TrainIdx].Pt).Select(p => new Point2d(p.X, p.Y));
-
-            //using var homography = Cv2.FindHomography(srcPts, dstPts, HomographyMethods.Ransac, 5, null);
-
-            //int h = queryImage.Height, w = queryImage.Width;
-            //var targetImageBounds = new[]
-            //{
-            //    new Point2d(0, 0),
-            //    new Point2d(0, h-1),
-            //    new Point2d(w-1, h-1),
-            //    new Point2d(w-1, 0),
-            //};
-            //var targetImageBoundsTransformed = Cv2.PerspectiveTransform(targetImageBounds, homography);
-
-            ////using var view = targetImage.Clone();
-            ////var drawingPoints = targetImageBoundsTransformed.Select(p => (OpenCvSharp.Point)p).ToArray();
-            ////Cv2.Polylines(view, new[] { drawingPoints }, true, Scalar.Red, 3);
-
-            ////using (new OpenCvSharp.Window("view", view))
-            ////{
-            ////    Cv2.WaitKey();
-            ////}
-
-            //return true;
-        }
-
         /// <summary>
         /// return positions on a target image that contain a query image.
         /// </summary>
         /// <param name="imageFilePath"></param>
         /// <param name="recognitionThreshold"></param>
         /// <returns></returns>
-        public Point2d[] GetImagePosition(string imageFilePath, int recognitionThreshold = -1)
+        public List<Point2d> GetImagePosition(string imageFilePath, double recognitionThreshold = -1.0)
         {
-            int th = recognitionThreshold == -1 ? _recognitionThreshold : recognitionThreshold;
+            double th = recognitionThreshold < 0.0 ? _recognitionThreshold : recognitionThreshold;
 
             using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
 
             Bitmap screenBitmap = GetScreenCapture(System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             using var targetImage = BitmapConverter.ToMat(screenBitmap);
 
-            using var orb = ORB.Create(1000);
-            using var descriptors1 = new Mat();
-            using var descriptors2 = new Mat();
-            orb.DetectAndCompute(queryImage, null, out var keyPoints1, descriptors1);
-            orb.DetectAndCompute(targetImage, null, out var keyPoints2, descriptors2);
+            var result = new Mat();
+            Cv2.MatchTemplate(targetImage, queryImage, result, TemplateMatchModes.CCoeffNormed);
+            Cv2.Threshold(result, result, th, 1.0, ThresholdTypes.Binary);
 
-            using var bf = new BFMatcher(NormTypes.Hamming, crossCheck: true);
-            var matches = bf.Match(descriptors1, descriptors2);
-
-            var goodMatches = matches
-                .Where(x => x.Distance <= th)
-                .OrderBy(x => x.Distance)
-                .Take(1024)
-                .ToArray();
-
-            if (goodMatches.Length == 0)
+            List<Point2d> output = new List<Point2d>();
+            for (int iRow = 0; iRow < result.Height; iRow++)
             {
-                return null;
-            }
-
-            var srcPts = goodMatches.Select(m => keyPoints1[m.QueryIdx].Pt).Select(p => new Point2d(p.X, p.Y));
-            var dstPts = goodMatches.Select(m => keyPoints2[m.TrainIdx].Pt).Select(p => new Point2d(p.X, p.Y));
-
-            using var homography = Cv2.FindHomography(srcPts, dstPts, HomographyMethods.Ransac, 5, null);
-
-            int h = queryImage.Height, w = queryImage.Width;
-            var targetImageBounds = new[]
-            {
-                new Point2d(0, 0),
-                new Point2d(0, h-1),
-                new Point2d(w-1, h-1),
-                new Point2d(w-1, 0),
-            };
-            var targetImageBoundsTransformed = Cv2.PerspectiveTransform(targetImageBounds, homography);
-
-            Point2d[] output = new Point2d[targetImageBoundsTransformed.Length];
-            for (int i = 0; i < targetImageBoundsTransformed.Length; i++)
-            {
-                output[i].X = targetImageBoundsTransformed[i].X;
-                output[i].Y = targetImageBoundsTransformed[i].Y;
+                for (int iColumn = 0; iColumn < result.Width; iColumn++)
+                {
+                    if (result.At<int>(iRow, iColumn) != 0)
+                    {
+                        output.Add(new Point2d { X = iColumn, Y = iRow });
+                    }
+                }
             }
 
             return output;
@@ -190,7 +102,7 @@ namespace KusaMochiAutoLibrary.ImageRecognition
 
         #region Fields
 
-        private int _recognitionThreshold = 15;
+        private double _recognitionThreshold = 0.85;
 
         #endregion
     }

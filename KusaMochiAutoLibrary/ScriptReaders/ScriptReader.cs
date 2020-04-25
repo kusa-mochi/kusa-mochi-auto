@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using OpenCvSharp;
@@ -27,6 +28,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                     ScriptOptions.Default
                         .WithImports(
                             "System",
+                            "System.Collections.Generic",
                             "System.Windows",
                             "OpenCvSharp",
                             "KusaMochiAutoLibrary.Emulators",
@@ -34,6 +36,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                             )
                         .WithReferences(
                             Assembly.GetAssembly(typeof(Point2d)),
+                            Assembly.GetAssembly(typeof(List<Point2d>)),
                             Assembly.GetAssembly(typeof(MouseEmulator)),
                             Assembly.GetAssembly(typeof(KeyboardEmulator)),
                             Assembly.GetAssembly(typeof(TimeEmulator)),
@@ -45,6 +48,8 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             {
                 Console.WriteLine("[Script error]");
                 Console.WriteLine(ex.Message);
+                MessageBox.Show($"[script error]\n{ex.Message}");
+                
             }
             catch (Exception ex)
             {
