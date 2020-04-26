@@ -53,7 +53,7 @@ namespace KusaMochiAuto.ViewModels
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.DefaultExt = ".auto";
-                dialog.Filter = "AUTO files|*.auto|C# source files|*.cs|All files|*.*";
+                dialog.Filter = "script files|*.auto;*.cs|All files|*.*";
                 if (dialog.ShowDialog() == true)
                 {
                     using (StreamReader reader = new StreamReader(dialog.FileName))
