@@ -65,70 +65,79 @@ namespace KusaMochiAutoLibrary.ScriptReaders
         private string FormatScript(string script)
         {
             string output = script;
-            output = "MouseEmulator mouse = new MouseEmulator();" + output;
-            output = "KeyboardEmulator keyboard = new KeyboardEmulator();" + output;
-            output = "TimeEmulator timeEmulator = new TimeEmulator();" + output;
-            output = "ImageRecognizer imageRecognizer = new ImageRecognizer();" + output;
-            output = "ProgramRunner programRunner = new ProgramRunner();" + output;
 
-            string[] mouseMethods = new string[]
-            {
-                "MouseMoveTo",
-                "MouseClick",
-                "MouseRightClick",
-                "MouseLeftDown",
-                "MouseLeftUp",
-                "MouseRightDown",
-                "MouseRightUp",
-                "MouseMiddleDown",
-                "MouseMiddleUp",
-                "MouseWheel"
+            ScriptAdjustmentUnit[] adjustments = new ScriptAdjustmentUnit[] {
+                new ScriptAdjustmentUnit()
+                {
+                    ClassName = "MouseEmulator",
+                    Methods = new string[]
+                    {
+                        "MouseMoveTo",
+                        "MouseClick",
+                        "MouseRightClick",
+                        "MouseLeftDown",
+                        "MouseLeftUp",
+                        "MouseRightDown",
+                        "MouseRightUp",
+                        "MouseMiddleDown",
+                        "MouseMiddleUp",
+                        "MouseWheel"
+                    }
+                },
+                new ScriptAdjustmentUnit()
+                {
+                    ClassName = "KeyboardEmulator",
+                    Methods = new string[]
+                    {
+                        "KeyPress",
+                        "KeyDown",
+                        "KeyUp"
+                    }
+                },
+                new ScriptAdjustmentUnit()
+                {
+                    ClassName = "TimeEmulator",
+                    Methods = new string[]
+                    {
+                        "Wait"
+                    }
+                },
+                new ScriptAdjustmentUnit()
+                {
+                    ClassName = "ImageRecognizer",
+                    Methods = new string[]
+                    {
+                        "GetImagePosition"
+                    }
+                },
+                new ScriptAdjustmentUnit()
+                {
+                    ClassName = "ProgramRunner",
+                    Methods = new string[]
+                    {
+                        "Run"
+                    }
+                }
             };
-            foreach (string methodName in mouseMethods)
-            {
-                output = output.Replace(methodName + "(", "mouse." + methodName + "(");
-            }
 
-            string[] keyboardMethods = new string[]
+            foreach (ScriptAdjustmentUnit adjustment in adjustments)
             {
-                "KeyPress",
-                "KeyDown",
-                "KeyUp"
-            };
-            foreach (string methodName in keyboardMethods)
-            {
-                output = output.Replace(methodName + "(", "keyboard." + methodName + "(");
-            }
-
-            string[] timeMethods = new string[]
-            {
-                "Wait"
-            };
-            foreach (string methodName in timeMethods)
-            {
-                output = output.Replace(methodName + "(", "timeEmulator." + methodName + "(");
-            }
-
-            string[] recognizeMethods = new string[]
-            {
-                "IsImageFound",
-                "GetImagePosition"
-            };
-            foreach (string methodName in recognizeMethods)
-            {
-                output = output.Replace(methodName + "(", "imageRecognizer." + methodName + "(");
-            }
-
-            string[] externalMethods = new string[]
-            {
-                "Run"
-            };
-            foreach (string methodName in externalMethods)
-            {
-                output = output.Replace(methodName + "(", "programRunner." + methodName + "(");
+                output = AdjustScript(output, adjustment.ClassName, adjustment.Methods);
             }
 
             return output;
+        }
+
+        private string AdjustScript(string script, string className, string[] methodNames)
+        {
+            string instanceName = $"{className}Instance";
+            script = $"{className} {instanceName} = new {className}();{script}";
+            foreach (string methodName in methodNames)
+            {
+                script = script.Replace($"{methodName}(", $"{instanceName}.{methodName}(");
+            }
+
+            return script;
         }
     }
 }
