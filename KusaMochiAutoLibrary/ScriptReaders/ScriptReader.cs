@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using OpenCvSharp;
 using KusaMochiAutoLibrary.Emulators;
 using KusaMochiAutoLibrary.ImageRecognition;
+using KusaMochiAutoLibrary.External;
 
 namespace KusaMochiAutoLibrary.ScriptReaders
 {
@@ -32,7 +33,8 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                             "System.Windows",
                             "OpenCvSharp",
                             "KusaMochiAutoLibrary.Emulators",
-                            "KusaMochiAutoLibrary.ImageRecognition"
+                            "KusaMochiAutoLibrary.ImageRecognition",
+                            "KusaMochiAutoLibrary.External"
                             )
                         .WithReferences(
                             Assembly.GetAssembly(typeof(Point2d)),
@@ -40,7 +42,8 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                             Assembly.GetAssembly(typeof(MouseEmulator)),
                             Assembly.GetAssembly(typeof(KeyboardEmulator)),
                             Assembly.GetAssembly(typeof(TimeEmulator)),
-                            Assembly.GetAssembly(typeof(ImageRecognizer))
+                            Assembly.GetAssembly(typeof(ImageRecognizer)),
+                            Assembly.GetAssembly(typeof(ProgramRunner))
                             )
                     );
             }
@@ -49,7 +52,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                 Console.WriteLine("[Script error]");
                 Console.WriteLine(ex.Message);
                 MessageBox.Show($"[script error]\n{ex.Message}");
-                
+
             }
             catch (Exception ex)
             {
@@ -66,6 +69,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             output = "KeyboardEmulator keyboard = new KeyboardEmulator();" + output;
             output = "TimeEmulator timeEmulator = new TimeEmulator();" + output;
             output = "ImageRecognizer imageRecognizer = new ImageRecognizer();" + output;
+            output = "ProgramRunner programRunner = new ProgramRunner();" + output;
 
             string[] mouseMethods = new string[]
             {
@@ -113,6 +117,15 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             foreach (string methodName in recognizeMethods)
             {
                 output = output.Replace(methodName + "(", "imageRecognizer." + methodName + "(");
+            }
+
+            string[] externalMethods = new string[]
+            {
+                "Run"
+            };
+            foreach (string methodName in externalMethods)
+            {
+                output = output.Replace(methodName + "(", "programRunner." + methodName + "(");
             }
 
             return output;
