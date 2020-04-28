@@ -7,9 +7,6 @@ using System.Windows;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using OpenCvSharp;
-using KusaMochiAutoLibrary.Emulators;
-using KusaMochiAutoLibrary.ImageRecognition;
-using KusaMochiAutoLibrary.External;
 
 namespace KusaMochiAutoLibrary.ScriptReaders
 {
@@ -21,29 +18,25 @@ namespace KusaMochiAutoLibrary.ScriptReaders
 
         public async Task<bool> ExecuteScript(string script)
         {
-            string formattedScript = FormatScript(script);
+            if (string.IsNullOrEmpty(script)) throw new ArgumentNullException("script");
+
             try
             {
                 var result = await CSharpScript.RunAsync(
-                    formattedScript,
+                    script,
                     ScriptOptions.Default
                         .WithImports(
                             "System",
                             "System.Collections.Generic",
                             "System.Windows",
                             "OpenCvSharp",
-                            "KusaMochiAutoLibrary.Emulators",
-                            "KusaMochiAutoLibrary.ImageRecognition",
-                            "KusaMochiAutoLibrary.External"
+                            "KusaMochiAutoLibrary.ScriptReaders.ScriptRunner"
                             )
                         .WithReferences(
                             Assembly.GetAssembly(typeof(Point2d)),
                             Assembly.GetAssembly(typeof(List<Point2d>)),
-                            Assembly.GetAssembly(typeof(MouseEmulator)),
-                            Assembly.GetAssembly(typeof(KeyboardEmulator)),
-                            Assembly.GetAssembly(typeof(TimeEmulator)),
-                            Assembly.GetAssembly(typeof(ImageRecognizer)),
-                            Assembly.GetAssembly(typeof(ProgramRunner))
+                            Assembly.GetAssembly(typeof(System.Windows.Application)),
+                            Assembly.GetAssembly(typeof(KusaMochiAutoLibrary.Emulators.MouseEmulator))
                             )
                     );
             }
@@ -60,84 +53,6 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             }
 
             return true;
-        }
-
-        private string FormatScript(string script)
-        {
-            string output = script;
-
-            ScriptAdjustmentUnit[] adjustments = new ScriptAdjustmentUnit[] {
-                new ScriptAdjustmentUnit()
-                {
-                    ClassName = "MouseEmulator",
-                    Methods = new string[]
-                    {
-                        "MouseMoveTo",
-                        "MouseClick",
-                        "MouseRightClick",
-                        "MouseLeftDown",
-                        "MouseLeftUp",
-                        "MouseRightDown",
-                        "MouseRightUp",
-                        "MouseMiddleDown",
-                        "MouseMiddleUp",
-                        "MouseWheel"
-                    }
-                },
-                new ScriptAdjustmentUnit()
-                {
-                    ClassName = "KeyboardEmulator",
-                    Methods = new string[]
-                    {
-                        "KeyPress",
-                        "KeyDown",
-                        "KeyUp"
-                    }
-                },
-                new ScriptAdjustmentUnit()
-                {
-                    ClassName = "TimeEmulator",
-                    Methods = new string[]
-                    {
-                        "Wait"
-                    }
-                },
-                new ScriptAdjustmentUnit()
-                {
-                    ClassName = "ImageRecognizer",
-                    Methods = new string[]
-                    {
-                        "GetImagePosition"
-                    }
-                },
-                new ScriptAdjustmentUnit()
-                {
-                    ClassName = "ProgramRunner",
-                    Methods = new string[]
-                    {
-                        "Run"
-                    }
-                }
-            };
-
-            foreach (ScriptAdjustmentUnit adjustment in adjustments)
-            {
-                output = AdjustScript(output, adjustment.ClassName, adjustment.Methods);
-            }
-
-            return output;
-        }
-
-        private string AdjustScript(string script, string className, string[] methodNames)
-        {
-            string instanceName = $"{className}Instance";
-            script = $"{className} {instanceName} = new {className}();{script}";
-            foreach (string methodName in methodNames)
-            {
-                script = script.Replace($"{methodName}(", $"{instanceName}.{methodName}(");
-            }
-
-            return script;
         }
     }
 }

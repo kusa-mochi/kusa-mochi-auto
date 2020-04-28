@@ -103,6 +103,50 @@ namespace KusaMochiAutoLibrary.Emulators
             return true;
         }
 
+        public bool MouseMiddleClick()
+        {
+            Win32Point p = GetMousePosition();
+            return MouseMiddleClick(p.X, p.Y);
+        }
+
+        public bool MouseMiddleClick(int x, int y)
+        {
+            MouseMoveTo(x, y);
+
+            INPUT[] inputs = new INPUT[] {
+                new INPUT{
+                    type = NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                            dwFlags = NativeMethods.MOUSEEVENTF_MIDDLEDOWN,
+                            dx = x,
+                            dy = y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
+                        }
+                    }
+                },
+                new INPUT{
+                    type = NativeMethods.INPUT_MOUSE,
+                    ui = new INPUT_UNION{
+                        mouse = new MOUSEINPUT{
+                            dwFlags = NativeMethods.MOUSEEVENTF_MIDDLEUP,
+                            dx = x,
+                            dy = y,
+                            mouseData = 0,
+                            dwExtraInfo = IntPtr.Zero,
+                            time = 0
+                        }
+                    }
+                }
+            };
+
+            NativeMethods.SendInput(2, ref inputs[0], Marshal.SizeOf(inputs[0]));
+
+            return true;
+        }
+
         public bool MouseLeftDown()
         {
             Win32Point p = GetMousePosition();
