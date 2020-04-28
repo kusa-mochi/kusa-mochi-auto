@@ -13,6 +13,7 @@ namespace KusaMochiAutoLibrary.ScriptReaders
 {
     /// <summary>
     /// Emulators wrapper for executing scripts.
+    /// Users can write scripts using GLOBAL methods (easy to use for beginners).
     /// </summary>
     public class ScriptRunner
     {
