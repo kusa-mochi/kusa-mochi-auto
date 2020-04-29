@@ -1,12 +1,12 @@
 - [About](#about)
-- What to use this for
-- How to record your operations
-- How to scripting
-  - Mouse
-  - Keyboard
-  - Others
-- Sample scripts
-- License
+- [What to use this for](#what-to-use-this-for)
+- [How to record your operations](#how-to-record-your-operations)
+- [How to scripting](#how-to-scripting)
+  - [Mouse](#mouse)
+  - [Keyboard](#keyboard)
+  - [Others](#others)
+- [Sample scripts](#sample-scripts)
+- [License](#license)
 ---
 # About
 kusa-mochi-auto is the mouse/keyboard automation tool on windows.
