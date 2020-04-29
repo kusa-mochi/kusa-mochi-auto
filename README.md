@@ -23,7 +23,7 @@ You can automate your workflow on PC using kusa-mochi-auto that is commonly used
 
 On the main window, you can start recording all of your mouse & keyboard operations on your PC by click the red "Rec" button.
 
-![Main Window 2](https://raw.githubusercontent.com/kusa-mochi/kusa-mochi-auto/master/doc/img/main-window-.PNG "Main Window 2")
+![Main Window 2](https://raw.githubusercontent.com/kusa-mochi/kusa-mochi-auto/master/doc/img/main-window-2.PNG "Main Window 2")
 
 After recording, click the blue "Stop" button.
 
