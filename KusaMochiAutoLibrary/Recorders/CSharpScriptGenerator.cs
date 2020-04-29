@@ -18,7 +18,7 @@ namespace KusaMochiAutoLibrary.Recorders
         public void MouseLeftDown(int x, int y)
         {
             CheckTotalWait();
-            _script += $"MouseLeftDown({x},{y});\n";
+            _script += $"MouseDown({x},{y});\n";
         }
 
         public void MouseRightDown(int x, int y)
@@ -30,7 +30,7 @@ namespace KusaMochiAutoLibrary.Recorders
         public void MouseLeftUp(int x, int y)
         {
             CheckTotalWait();
-            _script += $"MouseLeftUp({x},{y});\n";
+            _script += $"MouseUp({x},{y});\n";
         }
 
         public void MouseRightUp(int x, int y)
