@@ -45,7 +45,6 @@ namespace KusaMochiAutoLibrary.ScriptReaders
                 Console.WriteLine("[Script error]");
                 Console.WriteLine(ex.Message);
                 MessageBox.Show($"[script error]\n{ex.Message}");
-
             }
             catch (Exception ex)
             {
