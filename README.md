@@ -1,4 +1,4 @@
-- About
+- [About](#about)
 - What to use this for
 - How to record your operations
 - How to scripting
