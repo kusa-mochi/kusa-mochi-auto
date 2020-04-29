@@ -52,8 +52,8 @@ namespace KusaMochiAuto.ViewModels
             _OpenCommand ?? (_OpenCommand = new DelegateCommand(async () =>
             {
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.DefaultExt = ".auto";
-                dialog.Filter = "script files|*.auto;*.cs|All files|*.*";
+                dialog.DefaultExt = ".cs";
+                dialog.Filter = "C# files|*.cs|All files|*.*";
                 if (dialog.ShowDialog() == true)
                 {
                     using (StreamReader reader = new StreamReader(dialog.FileName))
@@ -91,9 +91,9 @@ namespace KusaMochiAuto.ViewModels
                     string recordedScript = InputDetector.RecordedScript;
                     InputDetector.Finish();
                     SaveFileDialog dialog = new SaveFileDialog();
-                    dialog.DefaultExt = ".auto";
+                    dialog.DefaultExt = ".cs";
                     dialog.AddExtension = true;
-                    dialog.Filter = "AUTO files|*.auto|C# source files|*.cs|All files|*.*";
+                    dialog.Filter = "C# files|*.cs|All files|*.*";
                     if (dialog.ShowDialog() == true)
                     {
                         using (StreamWriter writer = new StreamWriter(dialog.FileName))
