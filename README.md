@@ -393,7 +393,7 @@ Run(@"c:\tmp\test.exe", "testarg1 testarg2");
 
 # Sample scripts
 
-## search youtube on google using chrome
+- [search youtube on google using chrome](https://github.com/kusa-mochi/kusa-mochi-auto/blob/master/doc/sample-scripts/seearch-youtube-on-google-using-chrome.cs)
 
 # License
 kusa-mochi-auto is licensed under the [MIT-license](LICENSE).
