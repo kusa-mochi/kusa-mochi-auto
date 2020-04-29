@@ -120,3 +120,4 @@ Wait(540);
 MouseWheel(705,567,-1);
 Wait(585);
 MouseWheel(705,567,-1);
+MessageBox.Show("sample fin.");
