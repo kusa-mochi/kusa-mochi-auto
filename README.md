@@ -19,11 +19,11 @@ You can automate your workflow on PC using kusa-mochi-auto that is commonly used
 - Run external programs (*.exe, *.bat) by scripting.
 
 # How to record your operations
-![Main Window 1](doc/img/main-window-1.png "Main Window 1")
+![Main Window 1](https://raw.githubusercontent.com/kusa-mochi/kusa-mochi-auto/master/doc/img/main-window-1.PNG "Main Window 1")
 
 On the main window, you can start recording all of your mouse & keyboard operations on your PC by click the red "Rec" button.
 
-![Main Window 2](doc/img/main-window-2.png "Main Window 2")
+![Main Window 2](https://raw.githubusercontent.com/kusa-mochi/kusa-mochi-auto/master/doc/img/main-window-.PNG "Main Window 2")
 
 After recording, click the blue "Stop" button.
 
