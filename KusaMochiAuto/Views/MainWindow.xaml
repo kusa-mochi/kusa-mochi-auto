@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     x:Class="KusaMochiAuto.Views.MainWindow"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Title="kusa-mochi Auto"
+    Title="kusa-mochi-auto"
     ResizeMode="NoResize"
     SizeToContent="WidthAndHeight"
     WindowStyle="ToolWindow"

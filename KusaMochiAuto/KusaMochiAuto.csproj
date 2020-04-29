@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyName>KusaMochiAuto</AssemblyName>
+    <AssemblyName>kusa-mochi-auto</AssemblyName>
     <Authors>Kusa Mochi</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Kusa Mochi</Copyright>
@@ -16,6 +16,8 @@
     <PackageProjectUrl>https://github.com/kusa-mochi/kusa-mochi-auto</PackageProjectUrl>
     <SignAssembly>false</SignAssembly>
     <Company>Mochi</Company>
+    <Product>kusa-mochi-auto</Product>
+    <PackageId>kusa-mochi-auto</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Prism.DryIoc" Version="7.2.0.1367" />
