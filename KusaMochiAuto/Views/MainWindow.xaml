@@ -35,7 +35,7 @@
         <Button
             Content="Open"
             Command="{Binding OpenCommand, Mode=OneWay}"
-            IsEnabled="{Binding CanRecord}"/>
+            IsEnabled="{Binding CanOpen}"/>
         <Button
             Content="Rec"
             Command="{Binding RecordCommand, Mode=OneWay}"

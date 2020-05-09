@@ -24,6 +24,7 @@ namespace KusaMochiAuto.ViewModels
             set
             {
                 SetProperty(ref _IsRecording, value);
+                CanOpen = !value;
                 CanRecord = !value;
                 CanStop = value;
             }
@@ -43,6 +44,24 @@ namespace KusaMochiAuto.ViewModels
             set { SetProperty(ref _CanStop, value); }
         }
 
+        private bool _IsRunningScript = false;
+        public bool IsRunningScript
+        {
+            get { return _IsRunningScript; }
+            set
+            {
+                SetProperty(ref _IsRunningScript, value);
+                CanOpen = !value;
+            }
+        }
+
+        private bool _CanOpen = true;
+        public bool CanOpen
+        {
+            get { return _CanOpen; }
+            set { SetProperty(ref _CanOpen, value); }
+        }
+
         #endregion
 
         #region OpenCommand
@@ -60,7 +79,9 @@ namespace KusaMochiAuto.ViewModels
                     {
                         ScriptReader scriptReader = new ScriptReader();
                         string script = reader.ReadToEnd();
+                        IsRunningScript = true;
                         await scriptReader.ExecuteScript(script);
+                        IsRunningScript = false;
                     }
                 }
             }));
