@@ -347,7 +347,7 @@ usage:
 Wait(1000); // wait 1000 msec (= 1 sec).
 ```
 
-### List< Point2d > GetImagePosition(string imageFilePath [, double threshold] )
+### List< Point2d > GetImagePosition(string imageFilePath [, double threshold = 0.95] )
 search image patterns on screen, and return a list of matched positions.
 
 if there are no match, a return value is empty list: list length is zero. not null.
