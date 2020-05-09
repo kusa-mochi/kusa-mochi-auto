@@ -26,10 +26,43 @@ namespace KusaMochiAutoLibrary.ImageRecognition
         /// <returns></returns>
         public List<Point2d> GetImagePosition(string imageFilePath, double recognitionThreshold = 0.95)
         {
-            using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
-
             Bitmap screenBitmap = GetScreenCapture(System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            using var targetImage = BitmapConverter.ToMat(screenBitmap);
+            return GetImagePositionInBitmap(imageFilePath, screenBitmap, recognitionThreshold);
+        }
+
+        /// <summary>
+        /// return positions on a target region of image that contain a query image.
+        /// </summary>
+        /// <param name="imageFilePath"></param>
+        /// <param name="x">horizontal position of target rectangle on the screen.</param>
+        /// <param name="y">vertical position of target rectangle on the screen.</param>
+        /// <param name="width">width of target rectangle on the screen.</param>
+        /// <param name="height">height of target rectangle on the screen.</param>
+        /// <param name="recognitionThreshold"></param>
+        /// <returns></returns>
+        public List<Point2d> GetImagePosition(string imageFilePath, int x, int y, int width, int height, double recognitionThreshold = 0.95)
+        {
+            Rectangle rect = new Rectangle(x, y, width, height);
+            Bitmap screenBitmap = GetScreenCapture(System.Drawing.Imaging.PixelFormat.Format24bppRgb, rect);
+
+            List<Point2d> positionsInTargetRegion = GetImagePositionInBitmap(imageFilePath, screenBitmap, recognitionThreshold);
+            List<Point2d> output = new List<Point2d>();
+            foreach (Point2d p in positionsInTargetRegion)
+            {
+                output.Add(new Point2d { X = p.X + x, Y = p.Y + y });
+            }
+
+            return output;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private List<Point2d> GetImagePositionInBitmap(string imageFilePath, Bitmap bitmap, double recognitionThreshold)
+        {
+            using var targetImage = BitmapConverter.ToMat(bitmap);
+            using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
 
             var result = new Mat();
             Cv2.MatchTemplate(targetImage, queryImage, result, TemplateMatchModes.CCoeffNormed);
@@ -48,11 +81,8 @@ namespace KusaMochiAutoLibrary.ImageRecognition
             }
 
             return output;
+
         }
-
-        #endregion
-
-        #region Private Methods
 
         private System.Drawing.Size GetScreenResolution()
         {

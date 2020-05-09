@@ -163,9 +163,14 @@ namespace KusaMochiAutoLibrary.ScriptReaders
             _sTimeEmulator.Wait(t);
         }
 
-        public static List<Point2d> GetImagePosition(string imageFilePath, double threshold = -1.0)
+        public static List<Point2d> GetImagePosition(string imageFilePath, double threshold = 0.95)
         {
             return _sImageRecognizer.GetImagePosition(imageFilePath, threshold);
+        }
+
+        public static List<Point2d> GetImagePosition(string imageFilePath, int x, int y, int width, int height, double threshold = 0.95)
+        {
+            return _sImageRecognizer.GetImagePosition(imageFilePath, x, y, width, height, threshold);
         }
 
         public static void Run(string filePath, string args = null)

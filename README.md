@@ -3,8 +3,39 @@
 - [How to record your operations](#how-to-record-your-operations)
 - [How to scripting](#how-to-scripting)
   - [Mouse](#mouse)
+    - [MouseMoveTo(int x, int y)](#mousemovetoint-x-int-y)
+    - [Click()](#click)
+    - [Click(int x, int y)](#clickint-x-int-y)
+    - [RightClick()](#rightclick)
+    - [RightClick(int x, int y)](#rightclickint-x-int-y)
+    - [MiddleClick()](#middleclick)
+    - [MiddleClick(int x, int y)](#middleclickint-x-int-y)
+    - [MouseDown()](#mousedown)
+    - [MouseDown(int x, int y)](#mousedownint-x-int-y)
+    - [MouseUp()](#mouseup)
+    - [MouseUp(int x, int y)](#mouseupint-x-int-y)
+    - [MouseRightDown()](#mouserightdown)
+    - [MouseRightDown(int x, int y)](#mouserightdownint-x-int-y)
+    - [MouseRightUp()](#mouserightup)
+    - [MouseRightUp(int x, int y)](#mouserightupint-x-int-y)
+    - [MouseMiddleDown()](#mousemiddledown)
+    - [MouseMiddleDown(int x, int y)](#mousemiddledownint-x-int-y)
+    - [MouseMiddleUp()](#mousemiddleup)
+    - [MouseMiddleUp(int x, int y)](#mousemiddleupint-x-int-y)
+    - [MouseWheel(int amount)](#mousewheelint-amount)
+    - [MouseWheel(int x, int y, int amount)](#mousewheelint-x-int-y-int-amount)
   - [Keyboard](#keyboard)
+    - [KeyPress(System.Windows.Forms.Keys key)](#keypresssystemwindowsformskeys-key)
+    - [KeyPress(short key)](#keypressshort-key)
+    - [KeyDown(System.Windows.Forms.Keys key)](#keydownsystemwindowsformskeys-key)
+    - [KeyDown(short key)](#keydownshort-key)
+    - [KeyUp(System.Windows.Forms.Keys key)](#keyupsystemwindowsformskeys-key)
+    - [KeyUp(short key)](#keyupshort-key)
   - [Others](#others)
+    - [Wait(int t)](#waitint-t)
+    - [List< Point2d > GetImagePosition(string imageFilePath [, double threshold = 0.95] )](#list-point2d--getimagepositionstring-imagefilepath--double-threshold--095)
+    - [List< Point2d > GetImagePosition(string imageFilePath, int x, int y, int width, int height [, double threshold = 0.95] )](#list-point2d--getimagepositionstring-imagefilepath-int-x-int-y-int-width-int-height--double-threshold--095)
+    - [Run(string filePath [, string args] )](#runstring-filepath--string-args)
 - [Sample scripts](#sample-scripts)
 - [License](#license)
 ---
@@ -347,7 +378,7 @@ usage:
 Wait(1000); // wait 1000 msec (= 1 sec).
 ```
 
-### List< Point2d > GetImagePosition(string imageFilePath [, double threshold] )
+### List< Point2d > GetImagePosition(string imageFilePath [, double threshold = 0.95] )
 search image patterns on screen, and return a list of matched positions.
 
 if there are no match, a return value is empty list: list length is zero. not null.
@@ -371,6 +402,39 @@ public struct Point2d
 usage:
 ```
 List<Point2d> positions = GetImagePosition(@"c:\tmp\test.png", 0.95);
+
+string result = "result:\n";
+foreach(Point2d p in positions)
+{
+    result += $"({p.X}, {p.Y})\n";
+}
+MessageBox.Show(result);
+```
+
+### List< Point2d > GetImagePosition(string imageFilePath, int x, int y, int width, int height [, double threshold = 0.95] )
+search image patterns on a part of the screen: left-top position is (x, y) and size is (width, height), and return a list of matched positions.
+
+if there are no match, a return value is empty list: list length is zero. not null.
+
+"threshold" is an option argument which specifies a threshold on image similarity. the threshold range is 0.0 to 1.0.
+
+if "threshold" is 0.0, all of matching result is returned.
+
+if "threshold" is 1.0, only "perfect matched" result is returned.
+
+the returned value is type of Point2d. that is a struct as following:
+
+```
+public struct Point2d
+{
+    public double X;
+    public double Y;
+}
+```
+
+usage:
+```
+List<Point2d> positions = GetImagePosition(@"c:\tmp\test.png", 960, 0, 480, 540, 0.95);
 
 string result = "result:\n";
 foreach(Point2d p in positions)
