@@ -380,6 +380,39 @@ foreach(Point2d p in positions)
 MessageBox.Show(result);
 ```
 
+### List< Point2d > GetImagePosition(string imageFilePath, int x, int y, int width, int height [, double threshold = 0.95] )
+search image patterns on a part of the screen: left-top position is (x, y) and size is (width, height), and return a list of matched positions.
+
+if there are no match, a return value is empty list: list length is zero. not null.
+
+"threshold" is an option argument which specifies a threshold on image similarity. the threshold range is 0.0 to 1.0.
+
+if "threshold" is 0.0, all of matching result is returned.
+
+if "threshold" is 1.0, only "perfect matched" result is returned.
+
+the returned value is type of Point2d. that is a struct as following:
+
+```
+public struct Point2d
+{
+    public double X;
+    public double Y;
+}
+```
+
+usage:
+```
+List<Point2d> positions = GetImagePosition(@"c:\tmp\test.png", 960, 0, 480, 540, 0.95);
+
+string result = "result:\n";
+foreach(Point2d p in positions)
+{
+    result += $"({p.X}, {p.Y})\n";
+}
+MessageBox.Show(result);
+```
+
 ### Run(string filePath [, string args] )
 run an external program such as *.exe or *.bat asynchronously.
 
