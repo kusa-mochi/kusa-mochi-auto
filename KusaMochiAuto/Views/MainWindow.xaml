@@ -13,10 +13,6 @@
     SizeToContent="WidthAndHeight"
     WindowStyle="ToolWindow"
     d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
-    <Window.Resources>
-        <BooleanToVisibilityConverter
-            x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
     <StackPanel Orientation="Horizontal">
         <StackPanel.Resources>
             <Style
@@ -34,17 +30,14 @@
         </StackPanel.Resources>
         <Button
             Content="Open"
-            Command="{Binding OpenCommand, Mode=OneWay}"
-            IsEnabled="{Binding CanRecord}"/>
+            Command="{Binding OpenCommand, Mode=OneWay}"/>
         <Button
             Content="Rec"
             Command="{Binding RecordCommand, Mode=OneWay}"
-            Visibility="{Binding CanRecord, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
             Background="#FFFDC0C0" />
         <Button
             Content="Stop"
             Command="{Binding StopCommand, Mode=OneWay}"
-            Visibility="{Binding CanStop, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
             Background="#FFABD4FF" />
     </StackPanel>
 </Window>
