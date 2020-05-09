@@ -24,10 +24,8 @@ namespace KusaMochiAutoLibrary.ImageRecognition
         /// <param name="imageFilePath"></param>
         /// <param name="recognitionThreshold"></param>
         /// <returns></returns>
-        public List<Point2d> GetImagePosition(string imageFilePath, double recognitionThreshold = -1.0)
+        public List<Point2d> GetImagePosition(string imageFilePath, double recognitionThreshold = 0.95)
         {
-            double th = recognitionThreshold < 0.0 ? _recognitionThreshold : recognitionThreshold;
-
             using var queryImage = new Mat(imageFilePath, ImreadModes.Color);
 
             Bitmap screenBitmap = GetScreenCapture(System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -35,7 +33,7 @@ namespace KusaMochiAutoLibrary.ImageRecognition
 
             var result = new Mat();
             Cv2.MatchTemplate(targetImage, queryImage, result, TemplateMatchModes.CCoeffNormed);
-            Cv2.Threshold(result, result, th, 1.0, ThresholdTypes.Binary);
+            Cv2.Threshold(result, result, recognitionThreshold, 1.0, ThresholdTypes.Binary);
 
             List<Point2d> output = new List<Point2d>();
             for (int iRow = 0; iRow < result.Height; iRow++)
@@ -101,8 +99,6 @@ namespace KusaMochiAutoLibrary.ImageRecognition
         #endregion
 
         #region Fields
-
-        private double _recognitionThreshold = 0.85;
 
         #endregion
     }
