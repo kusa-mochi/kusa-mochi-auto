@@ -21,45 +21,14 @@ namespace KusaMochiAuto.ViewModels
         public bool IsRecording
         {
             get { return _IsRecording; }
-            set
-            {
-                SetProperty(ref _IsRecording, value);
-                CanOpen = !value;
-                CanRecord = !value;
-                CanStop = value;
-            }
-        }
-
-        private bool _CanRecord = true;
-        public bool CanRecord
-        {
-            get { return _CanRecord; }
-            set { SetProperty(ref _CanRecord, value); }
-        }
-
-        private bool _CanStop = false;
-        public bool CanStop
-        {
-            get { return _CanStop; }
-            set { SetProperty(ref _CanStop, value); }
+            set { SetProperty(ref _IsRecording, value); }
         }
 
         private bool _IsRunningScript = false;
         public bool IsRunningScript
         {
             get { return _IsRunningScript; }
-            set
-            {
-                SetProperty(ref _IsRunningScript, value);
-                CanOpen = !value;
-            }
-        }
-
-        private bool _CanOpen = true;
-        public bool CanOpen
-        {
-            get { return _CanOpen; }
-            set { SetProperty(ref _CanOpen, value); }
+            set { SetProperty(ref _IsRunningScript, value); }
         }
 
         #endregion
@@ -68,23 +37,33 @@ namespace KusaMochiAuto.ViewModels
 
         private DelegateCommand _OpenCommand;
         public DelegateCommand OpenCommand =>
-            _OpenCommand ?? (_OpenCommand = new DelegateCommand(async () =>
-            {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.DefaultExt = ".cs";
-                dialog.Filter = "C# files|*.cs|All files|*.*";
-                if (dialog.ShowDialog() == true)
+            _OpenCommand ?? (_OpenCommand = new DelegateCommand(() =>
                 {
-                    using (StreamReader reader = new StreamReader(dialog.FileName))
-                    {
-                        ScriptReader scriptReader = new ScriptReader();
-                        string script = reader.ReadToEnd();
-                        IsRunningScript = true;
-                        await scriptReader.ExecuteScript(script);
-                        IsRunningScript = false;
-                    }
+                    IsRunningScript = true;
+                    Task<bool> result = OpenCommandAsync();
+                },
+                () => !IsRecording && !IsRunningScript)
+                    .ObservesProperty(() => IsRecording)
+                    .ObservesProperty(() => IsRunningScript)
+            );
+        private async Task<bool> OpenCommandAsync()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.DefaultExt = ".cs";
+            dialog.Filter = "C# files|*.cs|All files|*.*";
+            if (dialog.ShowDialog() == true)
+            {
+                using (StreamReader reader = new StreamReader(dialog.FileName))
+                {
+                    ScriptReader scriptReader = new ScriptReader();
+                    string script = reader.ReadToEnd();
+                    await scriptReader.ExecuteScript(script);
+                    IsRunningScript = false;
                 }
-            }));
+            }
+
+            return true;
+        }
 
         #endregion
 
@@ -97,7 +76,11 @@ namespace KusaMochiAuto.ViewModels
                 {
                     IsRecording = true;
                     InputDetector.Initialize(new CSharpScriptGenerator());
-                }));
+                },
+                () => !IsRecording && !IsRunningScript)
+                    .ObservesProperty(() => IsRecording)
+                    .ObservesProperty(() => IsRunningScript)
+            );
 
         #endregion
 
@@ -123,7 +106,11 @@ namespace KusaMochiAuto.ViewModels
                         }
 
                     }
-                }));
+                },
+                () => IsRecording && !IsRunningScript)
+                    .ObservesProperty(() => IsRecording)
+                    .ObservesProperty(() => IsRunningScript)
+            );
 
         #endregion
 
