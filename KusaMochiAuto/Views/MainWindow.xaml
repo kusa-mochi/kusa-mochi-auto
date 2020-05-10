@@ -13,7 +13,12 @@
     SizeToContent="WidthAndHeight"
     WindowStyle="ToolWindow"
     d:DataContext="{d:DesignInstance {x:Type ViewModels:MainWindowViewModel}}">
-    <StackPanel Orientation="Horizontal">
+    <Window.Resources>
+        <BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <StackPanel
+        Orientation="Horizontal">
         <StackPanel.Resources>
             <Style
                 TargetType="{x:Type Button}">
@@ -34,10 +39,12 @@
         <Button
             Content="Rec"
             Command="{Binding RecordCommand, Mode=OneWay}"
-            Background="#FFFDC0C0" />
+            Background="#FFFDC0C0"
+            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
         <Button
             Content="Stop"
             Command="{Binding StopCommand, Mode=OneWay}"
-            Background="#FFABD4FF" />
+            Background="#FFABD4FF"
+            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
     </StackPanel>
 </Window>
