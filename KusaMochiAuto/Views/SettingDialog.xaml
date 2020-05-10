@@ -55,7 +55,9 @@
                     VerticalContentAlignment="Center"
                     Width="80"
                     FontSize="16"
-                    Padding="4,0"></TextBox>
+                    Padding="4,0"
+                    IsReadOnly="True"
+                    BorderThickness="3"></TextBox>
                 <Button
                     x:Name="StopKeyHelp"
                     Margin="12"
