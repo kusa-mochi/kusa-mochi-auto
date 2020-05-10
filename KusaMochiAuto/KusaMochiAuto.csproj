@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="Images\kusa-mochi-auto.ico" />
     <None Remove="Images\play.png" />
+    <None Remove="Images\question.png" />
     <None Remove="Images\rec.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\stop.png" />
@@ -31,6 +32,7 @@
   <ItemGroup>
     <Resource Include="Images\kusa-mochi-auto.ico" />
     <Resource Include="Images\play.png" />
+    <Resource Include="Images\question.png" />
     <Resource Include="Images\rec.png" />
     <Resource Include="Images\settings.png" />
     <Resource Include="Images\stop.png" />

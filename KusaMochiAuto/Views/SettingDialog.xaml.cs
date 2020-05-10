@@ -22,5 +22,27 @@ namespace KusaMochiAuto.Views
         {
             InitializeComponent();
         }
+
+        private void StopKeyHelp_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            if (element == null) return;
+
+            ToolTip toolTip = element.ToolTip as ToolTip;
+            if (toolTip == null) return;
+
+            toolTip.IsOpen = true;
+        }
+
+        private void StopKeyHelp_MouseLeave(object sender, MouseEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            if (element == null) return;
+
+            ToolTip toolTip = element.ToolTip as ToolTip;
+            if (toolTip == null) return;
+
+            toolTip.IsOpen = false;
+        }
     }
 }
