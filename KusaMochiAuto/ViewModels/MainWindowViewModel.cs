@@ -58,9 +58,10 @@ namespace KusaMochiAuto.ViewModels
                     ScriptReader scriptReader = new ScriptReader();
                     string script = reader.ReadToEnd();
                     await scriptReader.ExecuteScript(script);
-                    IsRunningScript = false;
                 }
             }
+
+            IsRunningScript = false;
 
             return true;
         }

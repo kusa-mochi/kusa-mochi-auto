@@ -16,6 +16,9 @@
     <Window.Resources>
         <BooleanToVisibilityConverter
             x:Key="BooleanToVisibilityConverter" />
+        <SolidColorBrush
+            x:Key="ButtonIconFillBrush"
+            Color="#FF494949" />
     </Window.Resources>
     <StackPanel
         Orientation="Horizontal">
@@ -24,27 +27,33 @@
                 TargetType="{x:Type Button}">
                 <Setter
                     Property="FontSize"
-                    Value="16" />
+                    Value="12" />
                 <Setter
                     Property="Width"
-                    Value="80" />
+                    Value="40" />
                 <Setter
                     Property="Height"
-                    Value="80" />
+                    Value="40" />
             </Style>
         </StackPanel.Resources>
         <Button
-            Content="Open"
-            Command="{Binding OpenCommand, Mode=OneWay}" />
+            Command="{Binding OpenCommand, Mode=OneWay}" Background="#FFBCFFBD">
+            <Image Source="/Images/play.png" Margin="-3"/>
+        </Button>
         <Button
-            Content="Rec"
             Command="{Binding RecordCommand, Mode=OneWay}"
             Background="#FFFDC0C0"
-            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+            <Image Source="/Images/rec.png" Margin="7"/>
+        </Button>
         <Button
-            Content="Stop"
             Command="{Binding StopCommand, Mode=OneWay}"
             Background="#FFABD4FF"
-            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+            <Image Source="/Images/stop.png" Margin="-3"/>
+        </Button>
+        <Button>
+            <Image Source="/Images/settings.png" Margin="4"/>
+        </Button>
     </StackPanel>
 </Window>
