@@ -19,14 +19,17 @@
     <Company>Mochi</Company>
     <Product>kusa-mochi-auto</Product>
     <PackageId>kusa-mochi-auto</PackageId>
+    <ApplicationIcon>Images\kusa-mochi-auto.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Images\kusa-mochi-auto.ico" />
     <None Remove="Images\play.png" />
     <None Remove="Images\rec.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\stop.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\kusa-mochi-auto.ico" />
     <Resource Include="Images\play.png" />
     <Resource Include="Images\rec.png" />
     <Resource Include="Images\settings.png" />
