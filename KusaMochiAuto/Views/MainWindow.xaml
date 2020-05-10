@@ -37,24 +37,34 @@
             </Style>
         </StackPanel.Resources>
         <Button
-            Command="{Binding OpenCommand, Mode=OneWay}" Background="#FFBCFFBD">
-            <Image Source="/Images/play.png" Margin="-3"/>
+            Command="{Binding OpenCommand, Mode=OneWay}"
+            Background="#FFBCFFBD">
+            <Image
+                Source="/Images/play.png"
+                Margin="-3" />
         </Button>
         <Button
             Command="{Binding RecordCommand, Mode=OneWay}"
             Background="#FFFDC0C0"
             Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
-            <Image Source="/Images/rec.png" Margin="7"/>
+            <Image
+                Source="/Images/rec.png"
+                Margin="7" />
         </Button>
         <Button
             Command="{Binding StopCommand, Mode=OneWay}"
             Background="#FFABD4FF"
             Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
-            <Image Source="/Images/stop.png" Margin="-3"/>
+            <Image
+                Source="/Images/stop.png"
+                Margin="-3" />
         </Button>
         <!--TODO: the setting dialog is not implemented yet.-->
-        <Button>
-            <Image Source="/Images/settings.png" Margin="4"/>
+        <Button
+            Command="{Binding SettingCommand, Mode=OneWay}">
+            <Image
+                Source="/Images/settings.png"
+                Margin="4" />
         </Button>
     </StackPanel>
 </Window>

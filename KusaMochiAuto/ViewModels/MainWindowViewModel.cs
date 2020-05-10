@@ -5,6 +5,7 @@ using Microsoft.Win32;
 
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 
 using KusaMochiAutoLibrary.Recorders;
 using KusaMochiAutoLibrary.EventArgs;
@@ -115,6 +116,17 @@ namespace KusaMochiAuto.ViewModels
 
         #endregion
 
+        private DelegateCommand _SettingCommand;
+        public DelegateCommand SettingCommand =>
+                _SettingCommand ?? (_SettingCommand = new DelegateCommand(() =>
+                {
+                    _dialogService.ShowDialog("SettingDialog", null, null);
+                },
+                () => !IsRecording && !IsRunningScript)
+                    .ObservesProperty(() => IsRecording)
+                    .ObservesProperty(() => IsRunningScript)
+            );
+
         #region Event Handlers
 
         #endregion
@@ -125,11 +137,13 @@ namespace KusaMochiAuto.ViewModels
 
         #region Fields
 
+        private IDialogService _dialogService = null;
+
         #endregion
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDialogService dialogService)
         {
-
+            _dialogService = dialogService;
         }
     }
 }

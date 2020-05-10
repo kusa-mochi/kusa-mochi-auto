@@ -4,6 +4,7 @@ using System.Windows;
 using Prism.Ioc;
 using KusaMochiAutoLibrary.ScriptReaders;
 using KusaMochiAuto.Views;
+using KusaMochiAuto.ViewModels;
 
 namespace KusaMochiAuto
 {
@@ -19,7 +20,7 @@ namespace KusaMochiAuto
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterDialog<SettingDialog, SettingDialogViewModel>();
         }
 
         private async void PrismApplication_Startup(object sender, StartupEventArgs e)
