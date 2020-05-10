@@ -35,7 +35,7 @@
         </StackPanel.Resources>
         <Button
             Content="Open"
-            Command="{Binding OpenCommand, Mode=OneWay}"/>
+            Command="{Binding OpenCommand, Mode=OneWay}" />
         <Button
             Content="Rec"
             Command="{Binding RecordCommand, Mode=OneWay}"
