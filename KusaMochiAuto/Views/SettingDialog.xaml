@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:KusaMochiAuto.Views"
     xmlns:prism="http://prismlibrary.com/"
@@ -50,14 +51,30 @@
                 Grid.Column="1"
                 Orientation="Horizontal">
                 <TextBox
+                    x:Name="StopKeyTextBox"
+                    Text="{Binding StopKeyName, Mode=OneWay}"
                     Height="32"
                     HorizontalAlignment="Left"
+                    InputMethod.IsInputMethodEnabled="False"
                     VerticalContentAlignment="Center"
-                    Width="80"
+                    Width="120"
                     FontSize="16"
                     Padding="4,0"
                     IsReadOnly="True"
-                    BorderThickness="3"></TextBox>
+                    BorderThickness="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger
+                            EventName="GotFocus">
+                            <i:InvokeCommandAction
+                                Command="{Binding StopKeyTextBoxGotFocusCommand, Mode=OneWay}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger
+                            EventName="LostFocus">
+                            <i:InvokeCommandAction
+                                Command="{Binding StopKeyTextBoxLostFocusCommand, Mode=OneWay}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
                 <Button
                     x:Name="StopKeyHelp"
                     Margin="12"

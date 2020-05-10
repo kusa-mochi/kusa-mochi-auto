@@ -54,7 +54,7 @@ namespace KusaMochiAutoLibrary.Recorders
 
         #endregion
 
-        public static void Initialize(IScriptGenerator scriptGenerator)
+        public static void Initialize(IScriptGenerator scriptGenerator = null)
         {
             _scriptGenerator = scriptGenerator;
             _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
@@ -67,6 +67,7 @@ namespace KusaMochiAutoLibrary.Recorders
         {
             UnsetHook(_mouseHookId);
             UnsetHook(_keyboardHookId);
+            RemoveEventCallbacks();
         }
 
         private static IntPtr SetHook(NativeMethods.LowLevelMouseKeyboardProc proc, NativeMethods.HookType hookType)
@@ -96,7 +97,7 @@ namespace KusaMochiAutoLibrary.Recorders
             }
 
             double currentTimeCount = _allEventIntervalCounter.CurrentCount;
-            _scriptGenerator.Wait((int)currentTimeCount);
+            _scriptGenerator?.Wait((int)currentTimeCount);
             _allEventIntervalCounter.Restart();
 
             MSLLHOOKSTRUCT param = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
@@ -111,24 +112,24 @@ namespace KusaMochiAutoLibrary.Recorders
             switch ((NativeMethods.MouseMessage)wParam)
             {
                 case NativeMethods.MouseMessage.WM_LBUTTONDOWN:
-                    _scriptGenerator.MouseLeftDown(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseLeftDown(mousePosition.X, mousePosition.Y);
                     MouseLeftDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_LBUTTONUP:
-                    _scriptGenerator.MouseLeftUp(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseLeftUp(mousePosition.X, mousePosition.Y);
                     MouseLeftUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEMOVE:
                     if (_mouseMoveIntervalCounter.CurrentCount > _mouseMoveTimeInterval)
                     {
-                        _scriptGenerator.MouseMove(mousePosition.X, mousePosition.Y);
+                        _scriptGenerator?.MouseMove(mousePosition.X, mousePosition.Y);
                         MouseMove?.Invoke(null, mousePosition);
                         _mouseMoveIntervalCounter.Restart();
                     }
                     break;
                 case NativeMethods.MouseMessage.WM_MOUSEWHEEL:
                     int wheelAmount = (param.mouseData >> 16) / 120;
-                    _scriptGenerator.MouseWheel(mousePosition.X, mousePosition.Y, wheelAmount);
+                    _scriptGenerator?.MouseWheel(mousePosition.X, mousePosition.Y, wheelAmount);
                     MouseWheel?.Invoke(null, new MouseWheelEventArgs
                     {
                         Position = mousePosition,
@@ -136,19 +137,19 @@ namespace KusaMochiAutoLibrary.Recorders
                     });
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONDOWN:
-                    _scriptGenerator.MouseRightDown(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseRightDown(mousePosition.X, mousePosition.Y);
                     MouseRightDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_RBUTTONUP:
-                    _scriptGenerator.MouseRightUp(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseRightUp(mousePosition.X, mousePosition.Y);
                     MouseRightUp?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONDOWN:
-                    _scriptGenerator.MouseMiddleDown(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseMiddleDown(mousePosition.X, mousePosition.Y);
                     MouseMiddleDown?.Invoke(null, mousePosition);
                     break;
                 case NativeMethods.MouseMessage.WM_MBUTTONUP:
-                    _scriptGenerator.MouseMiddleUp(mousePosition.X, mousePosition.Y);
+                    _scriptGenerator?.MouseMiddleUp(mousePosition.X, mousePosition.Y);
                     MouseMiddleUp?.Invoke(null, mousePosition);
                     break;
                 default:
@@ -166,7 +167,7 @@ namespace KusaMochiAutoLibrary.Recorders
             }
 
             double currentTimeCount = _allEventIntervalCounter.CurrentCount;
-            _scriptGenerator.Wait((int)currentTimeCount);
+            _scriptGenerator?.Wait((int)currentTimeCount);
             _allEventIntervalCounter.Restart();
 
             KBDLLHOOKSTRUCT param = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
@@ -178,19 +179,19 @@ namespace KusaMochiAutoLibrary.Recorders
             switch ((NativeMethods.KeyboardMessage)wParam)
             {
                 case NativeMethods.KeyboardMessage.WM_KEYDOWN:
-                    _scriptGenerator.KeyDown(args.key);
+                    _scriptGenerator?.KeyDown(args.key);
                     KeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_KEYUP:
-                    _scriptGenerator.KeyUp(args.key);
+                    _scriptGenerator?.KeyUp(args.key);
                     KeyUp?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYDOWN:
-                    _scriptGenerator.SystemKeyDown(args.key);
+                    _scriptGenerator?.SystemKeyDown(args.key);
                     SystemKeyDown?.Invoke(null, args);
                     break;
                 case NativeMethods.KeyboardMessage.WM_SYSKEYUP:
-                    _scriptGenerator.SystemKeyUp(args.key);
+                    _scriptGenerator?.SystemKeyUp(args.key);
                     SystemKeyUp?.Invoke(null, args);
                     break;
                 default:
@@ -198,6 +199,63 @@ namespace KusaMochiAutoLibrary.Recorders
             }
 
             return NativeMethods.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
+        }
+
+        private static void RemoveEventCallbacks()
+        {
+            EventHandler<Win32Point>[] win32PointHandlers = new EventHandler<Win32Point>[] {
+                MouseMove,
+                MouseLeftDown,
+                MouseRightDown,
+                MouseLeftUp,
+                MouseRightUp,
+                MouseMiddleDown,
+                MouseMiddleUp
+            };
+
+            for (int iHandler = 0; iHandler < win32PointHandlers.Length; iHandler++)
+            {
+                if (win32PointHandlers[iHandler] == null) continue;
+
+                Delegate[] dList = win32PointHandlers[iHandler].GetInvocationList();
+                for (int iDelegate = 0; iDelegate < dList.Length; iDelegate++)
+                {
+                    win32PointHandlers[iHandler] -= (EventHandler<Win32Point>)dList[iDelegate];
+                }
+            }
+
+            EventHandler<MouseWheelEventArgs>[] mouseWheelHandlers = new EventHandler<MouseWheelEventArgs>[] {
+                MouseWheel
+            };
+
+            for (int iHandler = 0; iHandler < mouseWheelHandlers.Length; iHandler++)
+            {
+                if (mouseWheelHandlers[iHandler] == null) continue;
+
+                Delegate[] dList = mouseWheelHandlers[iHandler].GetInvocationList();
+                for (int iDelegate = 0; iDelegate < dList.Length; iDelegate++)
+                {
+                    mouseWheelHandlers[iHandler] -= (EventHandler<MouseWheelEventArgs>)dList[iDelegate];
+                }
+            }
+
+            EventHandler<KeyboardEventArgs>[] keyboardHandlers = new EventHandler<KeyboardEventArgs>[] {
+                KeyDown,
+                KeyUp,
+                SystemKeyDown,
+                SystemKeyUp
+            };
+
+            for (int iHandler = 0; iHandler < keyboardHandlers.Length; iHandler++)
+            {
+                if (keyboardHandlers[iHandler] == null) continue;
+
+                Delegate[] dList = keyboardHandlers[iHandler].GetInvocationList();
+                for (int iDelegate = 0; iDelegate < dList.Length; iDelegate++)
+                {
+                    keyboardHandlers[iHandler] -= (EventHandler<KeyboardEventArgs>)dList[iDelegate];
+                }
+            }
         }
     }
 }
