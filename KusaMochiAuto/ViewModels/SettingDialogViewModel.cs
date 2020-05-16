@@ -29,7 +29,7 @@ namespace KusaMochiAuto.ViewModels
         {
         }
 
-        private string _StopKeyName = "Escape";
+        private string _StopKeyName = Keys.Escape.ToString();
         public string StopKeyName
         {
             get { return _StopKeyName; }
@@ -46,8 +46,7 @@ namespace KusaMochiAuto.ViewModels
 
         private void OnKeyDown(object sender, KusaMochiAutoLibrary.EventArgs.KeyboardEventArgs e)
         {
-            KeysConverter kc = new KeysConverter();
-            StopKeyName = kc.ConvertToString(null, new System.Globalization.CultureInfo("en-US"), e.key);
+            StopKeyName = e.key.ToString();
         }
 
         private DelegateCommand _StopKeyTextBoxLostFocusCommand;
