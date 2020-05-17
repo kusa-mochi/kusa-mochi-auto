@@ -14,6 +14,7 @@ namespace KusaMochiAutoLibrary.Recorders
     {
         #region Fields
 
+        private static bool _isInitialized = false;
         private static readonly NativeMethods.LowLevelMouseKeyboardProc _mouseProc = MouseInputCallback;
         private static readonly NativeMethods.LowLevelMouseKeyboardProc _keyboardProc = KeyboardInputCallback;
         private static IntPtr _mouseHookId = IntPtr.Zero;
@@ -56,18 +57,30 @@ namespace KusaMochiAutoLibrary.Recorders
 
         public static void Initialize(IScriptGenerator scriptGenerator = null)
         {
+            if (_isInitialized == true)
+            {
+                return;
+            }
+
             _scriptGenerator = scriptGenerator;
             _mouseHookId = SetHook(_mouseProc, NativeMethods.HookType.WH_MOUSE_LL);
             _keyboardHookId = SetHook(_keyboardProc, NativeMethods.HookType.WH_KEYBOARD_LL);
             _allEventIntervalCounter.Start();
             _mouseMoveIntervalCounter.Start();
+            _isInitialized = true;
         }
 
         public static void Finish()
         {
+            if (_isInitialized == false)
+            {
+                throw new InvalidOperationException("InputDetector is not initialized.");
+            }
+
             UnsetHook(_mouseHookId);
             UnsetHook(_keyboardHookId);
             RemoveEventCallbacks();
+            _isInitialized = false;
         }
 
         private static IntPtr SetHook(NativeMethods.LowLevelMouseKeyboardProc proc, NativeMethods.HookType hookType)
