@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -41,31 +42,69 @@ namespace KusaMochiAuto.ViewModels
             _OpenCommand ?? (_OpenCommand = new DelegateCommand(() =>
                 {
                     IsRunningScript = true;
-                    Task<bool> result = OpenCommandAsync();
+
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.DefaultExt = ".cs";
+                    dialog.Filter = "C# files|*.cs|All files|*.*";
+                    if (dialog.ShowDialog() == true)
+                    {
+                        //using (StreamReader reader = new StreamReader(dialog.FileName))
+                        //{
+                        //    ScriptReader scriptReader = new ScriptReader();
+                        //    string script = reader.ReadToEnd();
+                        //    await scriptReader.ExecuteScript(script);
+                        //}
+
+                        // start the process to run a script.
+                        Process runningProcess = new Process();
+                        InputDetector.Initialize();
+                        runningProcess.StartInfo = new ProcessStartInfo(@"KusaMochiAutoScriptRunner.exe");
+                        runningProcess.Exited += (sender, e) =>
+                        {
+                            InputDetector.Finish();
+                            runningProcess.Dispose();
+                            IsRunningScript = false;
+                        };
+                        runningProcess.Start();
+                        System.Windows.Forms.Keys stopKey = (System.Windows.Forms.Keys)Properties.KusaMochiAutoSettings.Default.StopScriptKey;
+                        InputDetector.KeyDown += (sender, e) =>
+                        {
+                            if (e.key == stopKey)
+                            {
+                                // abort the script running process.
+                                runningProcess.Kill();
+                                runningProcess.Dispose();
+                                InputDetector.Finish();
+                                IsRunningScript = false;
+                            }
+                        };
+                    }
                 },
                 () => !IsRecording && !IsRunningScript)
                     .ObservesProperty(() => IsRecording)
                     .ObservesProperty(() => IsRunningScript)
             );
-        private async Task<bool> OpenCommandAsync()
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.DefaultExt = ".cs";
-            dialog.Filter = "C# files|*.cs|All files|*.*";
-            if (dialog.ShowDialog() == true)
-            {
-                using (StreamReader reader = new StreamReader(dialog.FileName))
-                {
-                    ScriptReader scriptReader = new ScriptReader();
-                    string script = reader.ReadToEnd();
-                    await scriptReader.ExecuteScript(script);
-                }
-            }
+        //private bool OpenCommand()
+        //{
+        //    OpenFileDialog dialog = new OpenFileDialog();
+        //    dialog.DefaultExt = ".cs";
+        //    dialog.Filter = "C# files|*.cs|All files|*.*";
+        //    if (dialog.ShowDialog() == true)
+        //    {
+        //        //using (StreamReader reader = new StreamReader(dialog.FileName))
+        //        //{
+        //        //    ScriptReader scriptReader = new ScriptReader();
+        //        //    string script = reader.ReadToEnd();
+        //        //    await scriptReader.ExecuteScript(script);
+        //        //}
 
-            IsRunningScript = false;
+        //        // start the process to run a script.
+        //    }
 
-            return true;
-        }
+        //    IsRunningScript = false;
+
+        //    return true;
+        //}
 
         #endregion
 

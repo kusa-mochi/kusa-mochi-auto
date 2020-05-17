@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KusaMochiAutoLibrary\KusaMochiAutoLibrary.csproj" />
+    <ProjectReference Include="..\KusaMochiAutoScriptRunner\KusaMochiAutoScriptRunner.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />

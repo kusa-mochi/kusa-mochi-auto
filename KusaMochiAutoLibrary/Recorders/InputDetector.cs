@@ -74,7 +74,7 @@ namespace KusaMochiAutoLibrary.Recorders
         {
             if (_isInitialized == false)
             {
-                throw new InvalidOperationException("InputDetector is not initialized.");
+                return;
             }
 
             UnsetHook(_mouseHookId);
