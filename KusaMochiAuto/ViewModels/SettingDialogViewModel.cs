@@ -23,13 +23,33 @@ namespace KusaMochiAuto.ViewModels
 
         public void OnDialogClosed()
         {
+            if (_isClosingUsingCrossButton)
+            {
+                Properties.KusaMochiAutoSettings.Default.Reload();
+            }
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
         }
 
-        private string _StopKeyName = Keys.Escape.ToString();
+        public Keys StopKey
+        {
+            get
+            {
+                short savedKeyValue = Properties.KusaMochiAutoSettings.Default.StopScriptKey;
+                Keys savedKey = (Keys)savedKeyValue;
+                StopKeyName = savedKey.ToString();
+                return savedKey;
+            }
+            set
+            {
+                Properties.KusaMochiAutoSettings.Default.StopScriptKey = (short)value;
+                StopKeyName = value.ToString();
+            }
+        }
+
+        private string _StopKeyName = ((Keys)Properties.KusaMochiAutoSettings.Default.StopScriptKey).ToString();
         public string StopKeyName
         {
             get { return _StopKeyName; }
@@ -46,7 +66,7 @@ namespace KusaMochiAuto.ViewModels
 
         private void OnKeyDown(object sender, KusaMochiAutoLibrary.EventArgs.KeyboardEventArgs e)
         {
-            StopKeyName = e.key.ToString();
+            StopKey = e.key;
         }
 
         private DelegateCommand _StopKeyTextBoxLostFocusCommand;
@@ -55,5 +75,27 @@ namespace KusaMochiAuto.ViewModels
             {
                 InputDetector.Finish();
             }));
+
+        private DelegateCommand _OkCommand;
+        public DelegateCommand OkCommand =>
+            _OkCommand ?? (_OkCommand = new DelegateCommand(() =>
+            {
+                Properties.KusaMochiAutoSettings.Default.Save();
+                Prism.Services.Dialogs.DialogResult result = new Prism.Services.Dialogs.DialogResult(ButtonResult.OK);
+                _isClosingUsingCrossButton = false;
+                RequestClose?.Invoke(result);
+            }));
+
+        private DelegateCommand _CancelCommand;
+        public DelegateCommand CancelCommand =>
+            _CancelCommand ?? (_CancelCommand = new DelegateCommand(() =>
+            {
+                Properties.KusaMochiAutoSettings.Default.Reload();
+                Prism.Services.Dialogs.DialogResult result = new Prism.Services.Dialogs.DialogResult(ButtonResult.Cancel);
+                _isClosingUsingCrossButton = false;
+                RequestClose?.Invoke(result);
+            }));
+
+        private bool _isClosingUsingCrossButton = true;
     }
 }

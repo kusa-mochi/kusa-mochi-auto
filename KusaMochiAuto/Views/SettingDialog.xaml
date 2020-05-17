@@ -1,5 +1,4 @@
 ﻿<UserControl
-    x:Class="KusaMochiAuto.Views.SettingDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,10 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:KusaMochiAuto.Views"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:ViewModels="clr-namespace:KusaMochiAuto.ViewModels"
+    x:Class="KusaMochiAuto.Views.SettingDialog"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
     d:DesignHeight="450"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    d:DataContext="{d:DesignInstance {x:Type ViewModels:SettingDialogViewModel}}">
     <prism:Dialog.WindowStyle>
         <Style
             TargetType="{x:Type Window}">
@@ -46,7 +48,8 @@
             <TextBlock
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                FontSize="16">Key to stop running</TextBlock>
+                FontSize="16"><Run
+                    Text="Key to stop running" /></TextBlock>
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal">
@@ -102,11 +105,15 @@
                 Width="72"
                 Height="32"
                 FontSize="16"
-                Margin="0,0,8,0">OK</Button>
+                Margin="0,0,8,0"
+                Content="OK"
+                Command="{Binding OkCommand, Mode=OneWay}" />
             <Button
                 Width="72"
                 Height="32"
-                FontSize="16">Cancel</Button>
+                FontSize="16"
+                Content="Cancel"
+                Command="{Binding CancelCommand, Mode=OneWay}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
