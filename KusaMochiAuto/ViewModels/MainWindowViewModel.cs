@@ -55,18 +55,11 @@ namespace KusaMochiAuto.ViewModels
                         //    await scriptReader.ExecuteScript(script);
                         //}
 
-                        // start the process to run a script.
-                        Process runningProcess = new Process();
-                        InputDetector.Initialize();
-                        runningProcess.StartInfo = new ProcessStartInfo(@"KusaMochiAutoScriptRunner.exe");
-                        runningProcess.Exited += (sender, e) =>
-                        {
-                            InputDetector.Finish();
-                            runningProcess.Dispose();
-                            IsRunningScript = false;
-                        };
-                        runningProcess.Start();
+
+
                         System.Windows.Forms.Keys stopKey = (System.Windows.Forms.Keys)Properties.KusaMochiAutoSettings.Default.StopScriptKey;
+                        InputDetector.Initialize();
+                        Process runningProcess = Process.Start(@"KusaMochiAutoScriptRunner.exe", dialog.FileName);
                         InputDetector.KeyDown += (sender, e) =>
                         {
                             if (e.key == stopKey)
@@ -78,6 +71,44 @@ namespace KusaMochiAuto.ViewModels
                                 IsRunningScript = false;
                             }
                         };
+                        runningProcess.Exited += (sender, e) =>
+                        {
+                            if (IsRunningScript == false) return;
+                            InputDetector.Finish();
+                            runningProcess.Dispose();
+                            IsRunningScript = false;
+                        };
+
+
+                        //// start the process to run a script.
+                        //Process runningProcess = new Process();
+                        //InputDetector.Initialize();
+                        //runningProcess.EnableRaisingEvents = true;
+                        //runningProcess.StartInfo = new ProcessStartInfo(@"KusaMochiAutoScriptRunner.exe", dialog.FileName);
+                        //runningProcess.Exited += (sender, e) =>
+                        //{
+                        //    if (IsRunningScript == false) return;
+                        //    InputDetector.Finish();
+                        //    runningProcess.Dispose();
+                        //    IsRunningScript = false;
+                        //};
+                        //bool subProcessStartResult = runningProcess.Start();
+                        //System.Windows.Forms.Keys stopKey = (System.Windows.Forms.Keys)Properties.KusaMochiAutoSettings.Default.StopScriptKey;
+                        //InputDetector.KeyDown += (sender, e) =>
+                        //{
+                        //    if (e.key == stopKey)
+                        //    {
+                        //        // abort the script running process.
+                        //        runningProcess.Kill();
+                        //        runningProcess.Dispose();
+                        //        InputDetector.Finish();
+                        //        IsRunningScript = false;
+                        //    }
+                        //};
+                    }
+                    else
+                    {
+                        IsRunningScript = false;
                     }
                 },
                 () => !IsRecording && !IsRunningScript)
